@@ -1,0 +1,2053 @@
+html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DepEd Zamboanga City — SBFP Unified System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue: #000000;
+  --gold: #000000;
+  --green: #000000;
+  --border: #000000;
+  --text: #000000;
+}
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: #1a3a1a;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ═══════════ TOP SYSTEM NAV ═══════════ */
+.system-nav {
+  background: #0d1f0d;
+  border-bottom: 3px solid #2d6b2d;
+  padding: 0 16px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.system-nav-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #7bc97e;
+  padding: 10px 18px 10px 4px;
+  border-right: 1px solid #2d6b2d;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.system-nav-title .dot { color: #4caf50; }
+
+.sys-tab {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 0 22px;
+  border: none;
+  background: none;
+  color: #7bc97e;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: all .15s;
+}
+.sys-tab:hover { color: #fff; background: #163316; }
+.sys-tab.active { color: #fff; border-bottom-color: #4caf50; background: #1a3a1a; }
+
+/* ═══════════ SYSTEM PANELS ═══════════ */
+.sys-panel { display: none; }
+.sys-panel.active { display: block; }
+
+/* ════════════════════════════════════════════════════════
+   SECTION A — DOCS (RIS / IAR / DR / PO)
+════════════════════════════════════════════════════════ */
+#sysA {
+  background: #e8e4dc;
+  padding: 20px;
+  min-height: calc(100vh - 45px);
+}
+
+/* ═══════════ TAB BAR (Docs) ═══════════ */
+.doc-tab-bar {
+  max-width: 960px;
+  margin: 0 auto 0;
+  display: flex;
+  gap: 0;
+}
+
+.doc-tab-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 11px 28px;
+  border: 2px solid #000;
+  border-bottom: none;
+  background: #ccc8c0;
+  color: #666;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: background .15s, color .15s;
+  user-select: none;
+}
+.doc-tab-btn:hover { background: #dbd7ce; color: #000; }
+.doc-tab-btn.active {
+  background: white;
+  color: #000;
+  position: relative;
+  z-index: 2;
+  margin-bottom: -2px;
+  border-bottom: 2px solid white;
+}
+.doc-tab-btn.settings-btn { background: #e8e8e8; color: #000; border-color: #000; }
+.doc-tab-btn.settings-btn.active { background: white; }
+
+/* ═══════════ DOC TAB PANELS ═══════════ */
+.doc-tab-panel { display: none; }
+.doc-tab-panel.active { display: block; }
+
+.panel-shell {
+  max-width: 960px;
+  margin: 0 auto 18px;
+  background: white;
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 6px 6px 6px;
+  padding: 22px 26px;
+}
+
+/* ═══════════ SETTINGS ═══════════ */
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.s-section {
+  border: 1.5px solid #aaa;
+  border-radius: 6px;
+  padding: 16px 18px;
+  background: #f7f7f7;
+}
+.s-section.full { grid-column: 1 / -1; }
+
+.s-section h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #aaa;
+}
+
+.f-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.f-row label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #555;
+  white-space: nowrap;
+  min-width: 110px;
+}
+.s-inp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 7px 10px;
+  border: 1.5px solid #aac;
+  border-radius: 4px;
+  background: white;
+  color: var(--text);
+  flex: 1;
+  min-width: 140px;
+}
+.s-inp:focus { border-color: #000; outline: none; background: #f5f5f5; }
+.s-ta {
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  padding: 8px 10px;
+  border: 1.5px solid #aac;
+  border-radius: 4px;
+  background: white;
+  color: var(--text);
+  width: 100%;
+  resize: vertical;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.s-ta:focus { border-color: #000; outline: none; background: #f5f5f5; }
+
+.note { font-size: 10px; color: #888; font-style: italic; margin-top: 4px; }
+
+.apply-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  border: 1.5px solid #aaa;
+  flex-wrap: wrap;
+}
+.apply-banner p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #555;
+  flex: 1;
+  min-width: 200px;
+}
+.apply-banner p strong { color: #000; }
+
+/* ═══════════ DOC CONTROLS ═══════════ */
+.doc-controls {
+  max-width: 960px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: white;
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  padding: 13px 18px;
+}
+.doc-controls label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #000;
+  white-space: nowrap;
+}
+.d-sel, .d-inp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 7px 10px;
+  border: 1.5px solid #000;
+  border-radius: 4px;
+  background: white;
+  color: var(--text);
+}
+.d-sel { cursor: pointer; flex: 1; min-width: 200px; }
+.d-inp { min-width: 110px; }
+.d-qty { border-color: #000 !important; min-width: 100px; }
+.show-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555; white-space: nowrap; }
+.spacer { flex: 1; }
+
+/* ═══════════ BUTTONS ═══════════ */
+.btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity .15s;
+  white-space: nowrap;
+}
+.btn:hover { opacity: .82; }
+.btn-blue  { background: var(--blue); color: white; }
+.btn-gold  { background: var(--gold); color: white; }
+.btn-gray  { background: #666; color: white; }
+.btn-green { background: var(--green); color: white; }
+
+/* ═══════════ A4 DOCUMENT ═══════════ */
+.doc-wrap { max-width: 960px; margin: 0 auto; }
+
+.a4 {
+  background: white;
+  border: 1px solid #bbb;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  width: 210mm;
+  min-height: 297mm;
+  max-width: 100%;
+  margin: 0 auto 32px;
+  padding: 10mm 10mm 8mm;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+}
+.a4.hidden { display: none; }
+
+.appx {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  color: #888; text-align: right;
+  margin-bottom: 4px; text-transform: uppercase;
+}
+
+.doc-ttl {
+  text-align: center;
+  border-top: 3px solid var(--blue);
+  border-bottom: 3px solid var(--blue);
+  padding: 8px 0; margin-bottom: 10px;
+}
+.doc-ttl h1 {
+  font-size: 14px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--blue);
+}
+
+.hgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+}
+.hcell {
+  border: 1px solid var(--border);
+  padding: 5px 9px; font-size: 10px;
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+  overflow: visible;
+}
+.dof-field {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  border-bottom: 1px solid #999;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  flex: 1;
+  padding: 0 2px;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  cursor: text;
+}
+.dof-field:focus { border-bottom-color: #000; background: #f5f5f5; }
+.dr-dof-field {
+  font-family: Arial, sans-serif;
+  font-size: 8pt;
+  font-weight: 700;
+  font-style: normal;
+  text-decoration: underline;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  cursor: text;
+  display: inline-block;
+}
+.dr-dof-field:focus { background: #f5f5f5; }
+.ris-dof, .iar-dof, .dr-dof {
+  min-width: 0 !important;
+  flex: 1;
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  height: auto;
+  line-height: 1.4;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+.hcell.full { grid-column: 1 / -1; }
+
+.fl { font-weight: 700; font-size: 10px; letter-spacing: .03em; white-space: nowrap; }
+
+.ri {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  border: none; border-bottom: 1px solid #999;
+  outline: none; background: transparent; color: var(--text);
+  min-width: 40px; flex: 1; padding: 0 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ri:focus { border-bottom-color: #000; background: #f5f5f5; }
+
+.dtable {
+  width: 100%; border-collapse: collapse; font-size: 10px; flex: 1;
+}
+.dtable th, .dtable td { border: 1px solid var(--border); padding: 5px 6px; vertical-align: top; }
+.dtable thead tr:first-child th {
+  background: white; color: #000;
+  text-align: center; font-size: 10px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; padding: 6px;
+}
+.dtable thead tr:nth-child(2) th {
+  background: white; text-align: center;
+  font-size: 9px; font-weight: 700; padding: 7px 5px; vertical-align: middle;
+}
+.sa-hdr { background: white !important; color: #000 !important; }
+
+.dtable td.tc { text-align: center; }
+.dtable td.dc { font-size: 10px; line-height: 1.6; padding: 10px; }
+.iar-desc { font-size: 8.5px !important; line-height: 1.4 !important; padding: 5px 6px !important; }
+
+.desc-c {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px; line-height: 1.6;
+  white-space: pre-wrap; word-break: break-word;
+}
+.iar-desc .desc-c { font-size: 8.5px; line-height: 1.4; }
+
+.ti {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  border: none; outline: none; background: transparent;
+  color: var(--text); width: 100%; text-align: center; padding: 0;
+}
+.ti:focus { background: #f5f5f5; }
+
+.yn-cell { text-align: center; vertical-align: top; padding-top: 10px !important; }
+.yn-lbl { display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; font-size: 11px; }
+.yn-lbl input[type=radio] { accent-color: var(--blue); width: 13px; height: 13px; cursor: pointer; }
+
+.info-row {
+  border: 1px solid var(--border); border-top: none;
+  padding: 6px 10px; font-size: 10px; line-height: 1.55;
+  display: flex; align-items: flex-start; gap: 5px;
+}
+.pur-row { align-items: center; padding: 8px 12px; min-height: 42px; }
+.pur-txt {
+  flex: 1; font-size: 10px; font-weight: 700;
+  text-align: center; line-height: 1.6; font-style: italic;
+  word-break: break-word; padding: 2px 4px;
+}
+
+.sig-block {
+  border: 1px solid var(--border); border-top: none;
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.sig-col { border-right: 1px solid var(--border); padding: 14px 12px 16px; font-size: 10px; min-height: 150px; }
+.sig-col:last-child { border-right: none; }
+.sig-hdr { font-weight: 700; font-size: 10px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: .03em; }
+.sig-line { border-bottom: 1px solid #555; height: 42px; margin-bottom: 6px; }
+.sni {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; border: none; outline: none; background: transparent;
+  color: var(--text); width: 100%; padding: 0;
+}
+.sig-pos { font-size: 9px; color: #444; margin-top: 4px; line-height: 1.4; }
+.sig-pos-t { font-family: 'Source Serif 4', serif; font-size: 9px; color: #444; line-height: 1.4; }
+.sig-drow { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+.sig-dlbl { font-size: 10px; font-weight: 700; white-space: nowrap; }
+.sdi {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  border: none; border-bottom: 1px solid #555; outline: none;
+  background: transparent; color: var(--text); flex: 1; padding: 0 2px;
+}
+
+.iar-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border); border-top: none; flex: 1;
+}
+.iar-half { padding: 6px 10px; font-size: 9.5px; }
+.iar-half:first-child { border-right: 1px solid var(--border); }
+.iar-htitle { font-weight: 700; font-size: 9.5px; text-transform: uppercase; letter-spacing: .04em; color: #000; margin-bottom: 6px; }
+.iar-chk { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 5px; font-size: 9.5px; line-height: 1.4; }
+.iar-chk input[type=checkbox] { accent-color: #000; margin-top: 2px; flex-shrink: 0; }
+.iar-sig { margin-top: 12px; border-top: 1px solid #555; padding-top: 4px; font-size: 9.5px; }
+
+/* ═══════════ DR STYLES ═══════════ */
+.a4.dr-page {
+  width: 297mm;
+  min-height: 210mm;
+  max-width: 100%;
+  padding: 7mm 7mm 5mm;
+  flex-direction: row;
+  gap: 0;
+}
+.dr-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  font-size: 9pt;
+  color: #000;
+  min-width: 0;
+}
+.dr-half:first-child {
+  border-right: 1px dashed #aaa;
+  padding-right: 5mm;
+  margin-right: 5mm;
+}
+.dr-co-name { text-align: center; font-size: 14pt; font-weight: 700; font-family: Arial, sans-serif; line-height: 1.2; margin-bottom: 1px; }
+.dr-co-sub { text-align: center; font-size: 8.5pt; line-height: 1.5; font-family: Arial, sans-serif; }
+.dr-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 5px; margin-bottom: 3px; }
+.dr-badge { border: 1.5px solid #000; padding: 2px 8px; font-size: 8.5pt; font-weight: 700; font-family: Arial, sans-serif; letter-spacing: .04em; }
+.dr-no-area { text-align: right; font-family: Arial, sans-serif; }
+.dr-no-label { font-size: 18pt; font-weight: 900; color: #cc0000; line-height: 1; }
+.dr-date-line { font-size: 8.5pt; font-style: italic; margin-bottom: 2px; font-family: Arial, sans-serif; }
+.dr-delivered-line {
+  font-size: 8.5pt; font-style: italic;
+  border-bottom: 1px solid #000; padding-bottom: 1px; margin-bottom: 3px;
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px;
+  font-family: Arial, sans-serif;
+}
+.dr-delivered-line input.ri { font-style: normal; font-weight: 700; min-width: 0; flex:1; border-bottom: none; white-space: normal; word-break: break-word; overflow-wrap: break-word; height: auto; line-height: 1.4; font-size: 8pt; }
+.dr-addr-block { font-size: 8.5pt; font-style: italic; font-family: Arial, sans-serif; margin-bottom: 3px; }
+.dr-addr-row { border-bottom: 1px solid #000; padding-bottom: 1px; margin-bottom: 2px; display: flex; align-items: baseline; gap: 2px; }
+.dr-addr-row input.ri { font-style: normal; min-width: 0; flex:1; border-bottom: none; white-space: normal; word-break: break-word; overflow-wrap: break-word; height: auto; line-height: 1.4; font-size: 8pt; }
+.dr-tin-row { display: flex; gap: 14px; }
+.dr-tin-row span { display: flex; align-items: baseline; gap: 3px; }
+.dr-tin-row input.ri { font-style: normal; min-width: 70px; border-bottom: 1px solid #000; }
+.dr-grid-wrap { position: relative; width: 100%; flex: 1; display: flex; flex-direction: column; }
+.dr-grid-hdr { display: grid; grid-template-columns: 20% 20% 60%; border-top: 2px solid #000; border-bottom: 2px solid #000; font-family: Arial, sans-serif; font-size: 8pt; font-weight: 700; text-align: center; }
+.dr-grid-hdr span { padding: 3px 4px; }
+.dr-grid-hdr span:nth-child(2) { border-left: 1px solid #555; border-right: 1px solid #555; }
+.dr-grid-lines { position: relative; flex: 1; display: flex; flex-direction: column; }
+.dr-grid-lines > table { flex: 1; }
+.dr-grid-lines table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.dr-grid-lines table col:nth-child(1) { width: 20%; }
+.dr-grid-lines table col:nth-child(2) { width: 20%; }
+.dr-grid-lines table col:nth-child(3) { width: 60%; }
+.dr-grid-lines table td { height: 17px; border-bottom: 1px solid #888; border-left: 1px solid #888; padding: 0; }
+.dr-grid-lines table td:first-child { border-left: none; }
+.dr-grid-lines table td:last-child  { border-right: none; }
+.dr-grid-content { position: absolute; top: 0; left: 0; right: 0; pointer-events: none; font-family: Arial, sans-serif; font-size: 8pt; }
+.dr-grid-content table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.dr-grid-content table col:nth-child(1) { width: 20%; }
+.dr-grid-content table col:nth-child(2) { width: 20%; }
+.dr-grid-content table col:nth-child(3) { width: 60%; }
+.dr-grid-content table td { height: 17px; padding: 0px 5px; vertical-align: middle; border: none; background: transparent; overflow: visible; white-space: nowrap; font-size: 7.8pt; }
+.dr-grid-content table td.tc { text-align: center; }
+.dr-qty-inp { font-family: Arial, sans-serif; font-size: 8pt; font-weight: 700; border: none; outline: none; background: transparent; width: 100%; text-align: center; pointer-events: all; }
+.dr-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 1px; gap: 6px; }
+.dr-printer-block { font-size: 6.5pt; line-height: 1.5; flex: 1; font-family: Arial, sans-serif; }
+.dr-received-block { font-size: 8.5pt; font-style: italic; flex: 1; font-family: Arial, sans-serif; }
+.dr-sig-line2 { border-bottom: 1px solid #000; margin: 16px 0 2px; }
+.dr-not-valid { text-align: center; font-size: 7.5pt; font-style: italic; font-family: Arial, sans-serif; margin-top: 2px; border-top: 1px solid #bbb; padding-top: 2px; }
+.dr-cut-guide { display: flex; align-items: center; gap: 4px; margin-top: 4px; font-family: Arial, sans-serif; font-size: 6pt; color: #999; }
+.dr-cut-guide::before, .dr-cut-guide::after { content: ""; flex: 1; border-top: 1px dashed #bbb; }
+
+/* ═══════════ PURCHASE ORDER STYLES ═══════════ */
+.po-page { font-family: Arial, sans-serif; font-size: 10px; color: #000; }
+.po-appx { text-align: right; font-style: italic; font-size: 10px; margin-bottom: 2px; font-family: 'Times New Roman', serif; }
+.po-title { text-align: center; font-size: 15px; font-weight: 700; letter-spacing: .04em; margin-bottom: 1px; font-family: Arial, sans-serif; }
+.po-subtitle { text-align: center; font-size: 10px; margin-bottom: 6px; font-family: Arial, sans-serif; }
+.po-header-table { width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 4px; font-size: 9.5px; }
+.po-header-table td { border: 1px solid #000; padding: 3px 6px; vertical-align: middle; }
+.po-header-table td.po-lbl { font-weight: 700; white-space: nowrap; width: 60px; }
+.po-header-table td.po-val { min-width: 120px; }
+.po-header-table td.po-val input.ri { font-family: Arial, sans-serif; font-size: 9.5px; font-weight: 700; text-align: center; width: 100%; }
+.po-gents { font-size: 9.5px; margin-bottom: 4px; border: 1px solid #000; border-top: none; padding: 4px 6px; font-family: Arial, sans-serif; }
+.po-delivery-row { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #000; border-top: none; font-size: 9.5px; font-family: Arial, sans-serif; }
+.po-delivery-cell { padding: 3px 6px; display: flex; align-items: center; gap: 4px; border-right: 1px solid #000; }
+.po-delivery-cell:last-child { border-right: none; }
+.po-delivery-cell .po-lbl { font-weight: 700; white-space: nowrap; }
+.po-delivery-cell input.ri { font-family: Arial, sans-serif; font-size: 9px; }
+.po-delivery-cell .dof-field { font-family: Arial, sans-serif; font-size: 9px; font-weight: 700; text-transform: uppercase; border-bottom: none; }
+.po-items-table { width: 100%; border-collapse: collapse; font-size: 9.5px; font-family: Arial, sans-serif; margin-top: 0; flex: 1; }
+.po-items-table th, .po-items-table td { border: 1px solid #000; padding: 3px 5px; vertical-align: top; }
+.po-items-table thead th { text-align: center; font-weight: 700; background: white; font-size: 9.5px; padding: 4px 5px; }
+.po-items-table th.po-th-no  { width: 36px; }
+.po-items-table th.po-th-unit { width: 46px; }
+.po-items-table th.po-th-qty  { width: 50px; }
+.po-items-table th.po-th-uc   { width: 54px; }
+.po-items-table th.po-th-amt  { width: 78px; }
+.po-items-table td.tc { text-align: center; }
+.po-items-table td.tr { text-align: right; }
+.po-desc-cell { font-size: 9px; line-height: 1.55; }
+.po-desc-cell .po-section-hdr { font-weight: 700; text-align: center; margin: 3px 0; }
+.po-desc-cell .po-section-sub { text-align: center; margin-bottom: 2px; }
+.po-desc-cell .po-para { margin-bottom: 4px; text-align: justify; }
+.po-sig-block { border: 1px solid #000; border-top: none; display: grid; grid-template-columns: 1fr 1fr; font-family: Arial, sans-serif; font-size: 9.5px; }
+.po-sig-left { border-right: 1px solid #000; padding: 8px 10px; }
+.po-sig-right { padding: 8px 10px; }
+.po-sig-hdr { font-weight: 700; margin-bottom: 6px; }
+.po-sig-line { border-bottom: 1px solid #555; margin: 18px 0 3px; }
+.po-sig-name { font-family: Arial, sans-serif; font-size: 9.5px; font-weight: 700; text-transform: uppercase; text-align: center; border: none; outline: none; background: transparent; width: 100%; padding: 0; }
+.po-sig-pos { font-size: 9px; color: #444; text-align: center; margin-top: 2px; }
+.po-date-row { display: flex; align-items: center; gap: 4px; margin-top: 8px; font-size: 9px; }
+.po-footer { text-align: right; font-size: 8px; font-family: Arial, sans-serif; color: #555; margin-top: 2px; }
+.sig-over-name { display: block; }
+
+/* ═══════════ PRINT ═══════════ */
+.print-hidden-wrap { display: none !important; }
+@media print {
+  body { background: white; padding: 0; }
+  .system-nav, .doc-tab-bar { display: none !important; }
+  .sys-panel { display: none !important; }
+  .sys-panel.active { display: block !important; }
+  #sysA { background: white; padding: 0; }
+  .doc-tab-panel { display: none !important; }
+  .doc-tab-panel.print-active { display: block !important; }
+  #printOrderContainer { display: block !important; }
+  #printOrderContainer .a4 { display: flex !important; }
+  #printOrderContainer .a4.dr-page { flex-direction: row !important; }
+  .print-hidden-wrap { display: none !important; }
+  .a4 { border: none; box-shadow: none; width: 210mm; min-height: 297mm; max-height: 297mm; overflow: hidden; margin: 0; padding: 10mm 10mm 8mm; page-break-after: always; break-after: page; }
+  .a4.dr-page { width: 277mm; min-height: 190mm; max-height: 190mm; padding: 6mm 7mm 5mm; flex-direction: row; gap: 0; page: drLandscape; }
+  .dr-half { flex: 1; min-width: 0; overflow: hidden; }
+  .dr-half:first-child { border-right: 1px dashed #aaa; border-bottom: none; padding-right: 5mm; margin-right: 5mm; padding-bottom: 0; margin-bottom: 0; }
+  .a4.hidden, .a4.print-hidden { display: none !important; }
+  .ri, .ti, .sni, .sdi { background: transparent !important; }
+  .dof-field, .dr-dof-field { background: transparent !important; outline: none !important; border-bottom-color: #000 !important; white-space: normal !important; overflow: visible !important; word-break: break-word; }
+  .sig-over-name { display: none !important; }
+  .yn-lbl input[type=radio] { display: none; }
+  .yn-lbl .yn-txt { display: none; }
+  .yn-lbl.selected::after { content: "✓"; font-size: 15px; color: #000; font-weight: 700; }
+  .yn-lbl:not(.selected)::after { content: ""; }
+  @page { size: A4 portrait; margin: 0; }
+  @page drLandscape { size: A4 landscape; margin: 0; }
+  /* SBFP Labels print rules */
+  .controls,.tab-bar,.tab-header,.main-tab-bar,.masterlist-panel,.drop-info,.ml-screen-header,.ml-truck-tabs,.ml-print-bar,.status-bar,.delivery-dashboard,.status-toggle-area { display:none!important; }
+  .main-panel { display:block!important; }
+  .lbl-tab-section { display:none!important; }
+  .lbl-tab-section.printing { display:block!important; }
+  #panelMasterlist { display:none!important; }
+  #panelLabels:not(:has(.lbl-tab-section.printing)) { display:none!important; }
+  .page { margin:0; }
+  .dr-cut-guide { display: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   SECTION B — SBFP LABELS (scoped inside #sysB)
+════════════════════════════════════════════════════════ */
+#sysB {
+  background: #1a3a1a;
+  padding: 12px;
+  min-height: calc(100vh - 45px);
+}
+
+#sysB .controls {
+  background:#0d2b0d;color:#fff;
+  padding:10px 16px;margin-bottom:12px;
+  border-radius:5px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid #2d6b2d;
+}
+#sysB .controls select {
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+  padding:6px 12px;border-radius:4px;border:1px solid #2d6b2d;cursor:pointer;
+  background:#0d2b0d;color:#fff;
+}
+#sysB .controls button {
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;
+  padding:6px 16px;border-radius:4px;border:2px solid #4caf50;
+  cursor:pointer;background:#4caf50;color:#fff;
+}
+#sysB .controls button:hover{background:#45a049;}
+#sysB .ctrl-stat{color:#7bc97e;font-size:11px;}
+
+/* SBFP DELIVERY STATUS BAR */
+.status-bar {
+  background:#0f1f0f;border:1px solid #2d6b2d;border-radius:5px;
+  padding:8px 14px;margin-bottom:10px;
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+.status-bar-title { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#7bc97e; }
+.status-progress { flex:1;min-width:100px;height:8px;background:#1a4a1a;border-radius:4px;overflow:hidden; }
+.status-progress-fill { height:100%;background:#4caf50;border-radius:4px;transition:width .3s; }
+.status-counts { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:#ccc; }
+.status-counts .done-num { color:#4caf50;font-size:14px;font-weight:900; }
+.status-counts .total-num { color:#888; }
+.status-reset-btn { font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 12px;border-radius:3px;border:1px solid #555;cursor:pointer;background:#1a1a1a;color:#aaa; }
+.status-reset-btn:hover { background:#cc0000;color:#fff;border-color:#cc0000; }
+
+/* DELIVERY DASHBOARD */
+.delivery-dashboard {
+  background:#0a180a;border:1px solid #1a4a1a;border-radius:5px;
+  padding:10px 14px;margin-bottom:10px;
+}
+.dd-title { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#4caf50;margin-bottom:8px; }
+.dd-truck-block { margin-bottom:8px; }
+.dd-truck-label { font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;padding:3px 8px;border-radius:3px;margin-bottom:5px;display:inline-block; }
+.dd-truck-label.t1 { background:#0d2744;color:#1e88e5;border-left:3px solid #1e88e5; }
+.dd-truck-label.t2 { background:#2a2000;color:#f9a825;border-left:3px solid #f9a825; }
+.dd-truck-label.t3 { background:#21002a;color:#ab47bc;border-left:3px solid #ab47bc; }
+.dd-drops { display:flex;flex-wrap:wrap;gap:5px; }
+.dd-drop-pill { font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:3px;cursor:pointer;transition:all .15s; }
+.dd-drop-pill.status-pending { background:#1a1a2e;color:#6a6a9e;border:1px solid #333; }
+.dd-drop-pill.status-partial { background:#2a2000;color:#f9a825;border:1px solid #b07d00; }
+.dd-drop-pill.status-delivered { background:#0d2b0d;color:#4caf50;border:1px solid #2d6b2d; }
+.dd-drop-pill:hover{filter:brightness(1.3);}
+
+/* SBFP MAIN TAB BAR */
+.main-tab-bar { display:flex;gap:6px;margin-bottom:10px; }
+.main-tab-btn { font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:7px 20px;border-radius:5px 5px 0 0;cursor:pointer;border:2px solid #2d6b2d;border-bottom:none;background:#0d2b0d;color:#7bc97e;transition:all .15s; }
+.main-tab-btn.active{background:#163316;color:#fff;border-color:#4caf50;}
+.main-tab-btn:hover:not(.active){background:#163316;color:#ccc;}
+
+.main-panel{display:none;}
+.main-panel.visible{display:block;}
+
+/* SBFP TRUCK TAB BAR */
+.lbl-tab-bar { display:flex;flex-direction:column;gap:6px;margin-bottom:10px;padding:8px;background:#0d2b0d;border-radius:6px;border:1px solid #2d6b2d; }
+.truck-group { display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:5px 7px;border-radius:4px; }
+.truck-group.t1{ background:#0a1f2e; border-left:3px solid #1e88e5; }
+.truck-group.t2{ background:#1a1a0a; border-left:3px solid #f9a825; }
+.truck-group.t3{ background:#1a0a1a; border-left:3px solid #ab47bc; }
+.truck-label { font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;padding:2px 6px 2px 0;margin-right:2px;border-right:1px solid #333; }
+.truck-group.t1 .truck-label{ color:#1e88e5; }
+.truck-group.t2 .truck-label{ color:#f9a825; }
+.truck-group.t3 .truck-label{ color:#ab47bc; }
+.lbl-tab-btn { font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:all .15s; }
+.truck-group.t1 .lbl-tab-btn{ border:1px solid #1565c0;background:#0d2744;color:#90caf9; }
+.truck-group.t1 .lbl-tab-btn:hover{ background:#1565c0;color:#fff; }
+.truck-group.t1 .lbl-tab-btn.active{ background:#1e88e5;color:#fff;border-color:#1e88e5; }
+.truck-group.t2 .lbl-tab-btn{ border:1px solid #b07d00;background:#2a2000;color:#ffe082; }
+.truck-group.t2 .lbl-tab-btn:hover{ background:#b07d00;color:#fff; }
+.truck-group.t2 .lbl-tab-btn.active{ background:#f9a825;color:#000;border-color:#f9a825; }
+.truck-group.t3 .lbl-tab-btn{ border:1px solid #7b1fa2;background:#21002a;color:#ce93d8; }
+.truck-group.t3 .lbl-tab-btn:hover{ background:#7b1fa2;color:#fff; }
+.truck-group.t3 .lbl-tab-btn.active{ background:#ab47bc;color:#fff;border-color:#ab47bc; }
+.lbl-tab-section{display:none;}
+.lbl-tab-section.visible{display:block;}
+
+.tab-header { background:#163316;color:#9dd49f;padding:6px 12px;margin-bottom:0;border-radius:4px 4px 0 0;border-left:4px solid #4caf50;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;gap:12px;align-items:center;flex-wrap:wrap; }
+.tab-header span{color:#4caf50;}
+.status-badge-inline { font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;padding:2px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em; }
+.status-badge-inline.status-pending { background:#1a1a2e;color:#6a6a9e; }
+.status-badge-inline.status-partial { background:#2a2000;color:#f9a825; }
+.status-badge-inline.status-delivered { background:#0d2b0d;color:#4caf50; }
+.status-select { font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:3px;border:1px solid #2d6b2d;cursor:pointer;background:#0d2b0d;color:#fff; }
+.status-toggle-area { display:flex;align-items:center;gap:6px; }
+.status-toggle-label { font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#7bc97e; }
+.status-dot { width:7px;height:7px;border-radius:50%;background:#555;display:inline-block;margin-left:4px;vertical-align:middle; }
+.status-dot.done { background:#4caf50; }
+.status-dot.partial { background:#f9a825; }
+.lbl-tab-btn.drop-done { opacity:.7; }
+
+.drop-info { background:#0f1f0f;border:1px solid #2d6b2d;border-top:none;border-radius:0 0 4px 4px;margin-bottom:10px;overflow:hidden; }
+.drop-info-toggle { font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#7bc97e;background:none;border:none;cursor:pointer;padding:5px 12px;display:block;width:100%;text-align:left;border-top:1px solid #1a4a1a; }
+.drop-info-toggle:hover{color:#fff;background:#163316;}
+.drop-info-table-wrap{display:none;padding:0 10px 10px;}
+.drop-info-table-wrap.open{display:block;}
+.drop-info-table { width:100%;border-collapse:collapse;font-family:'Barlow Condensed',sans-serif;font-size:11px; }
+.drop-info-table th { font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#4caf50;font-size:10px;padding:5px 8px;border-bottom:1px solid #2d6b2d;text-align:left; }
+.drop-info-table th.num{text-align:right;}
+.drop-info-table td { padding:4px 8px;color:#ccc;font-size:11px;border-bottom:1px solid #1a3a1a; }
+.drop-info-table td.num{text-align:right;color:#fff;font-weight:700;}
+.drop-info-table td.cases{text-align:right;color:#7bc97e;font-weight:700;}
+.drop-info-table td.loose-cell{text-align:right;color:#f9a825;font-weight:700;}
+.drop-info-table tr:last-child td{border-bottom:none;}
+.drop-info-table tr.total-row td { border-top:2px solid #2d6b2d;border-bottom:none;background:#163316;color:#fff;font-weight:900;font-size:12px;padding:6px 8px; }
+.drop-info-table tr.total-row td.cases{color:#4caf50;}
+.drop-info-table tr.total-row td.loose-cell{color:#f9a825;}
+
+/* LABEL PAGE */
+.page { width:210mm;min-height:297mm;background:#fff;margin:0 auto 12px;padding:4mm;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:2.5mm;page-break-after:always;break-after:page; }
+.lbl { border:1.5px solid #000;border-radius:2px;display:flex;flex-direction:column;overflow:hidden;position:relative;background:#fff;min-height:0; }
+.lbl-banner { background:#fff;color:#000;display:flex;align-items:center;justify-content:center;gap:4px;padding:2px 5px;flex-shrink:0;border-bottom:1.5px solid #000; }
+.lbl-banner-text { font-family:'Barlow Condensed',sans-serif;font-size:6pt;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#000;line-height:1.3;text-align:left; }
+.lbl-banner-text .nfs { font-size:5pt;color:#c0392b;font-weight:800;letter-spacing:.06em;display:block; }
+.lbl-product { background:#fff;color:#000;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:7.5pt;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:2px 4px;line-height:1.2;flex-shrink:0;border-bottom:1.5px solid #000; }
+.lbl-prog { background:#f0f0f0;color:#000;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 4px;line-height:1;flex-shrink:0;border-bottom:1px solid #bbb; }
+.lbl-dropoff { padding:2px 6px 1px;border-bottom:1px solid #ccc;flex-shrink:0;background:#f8f8f8; }
+.do-eyebrow { font-family:'Barlow Condensed',sans-serif;font-size:5pt;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;line-height:1; }
+.do-name { font-family:'Barlow Condensed',sans-serif;font-size:7.5pt;font-weight:800;text-transform:uppercase;color:#000;line-height:1.1; }
+.lbl-school { flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2px 5px;text-align:center;border-bottom:1px solid #000;min-height:0; }
+.sch-eyebrow { font-family:'Barlow Condensed',sans-serif;font-size:5pt;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;line-height:1; }
+.sch-name { font-family:'Barlow Condensed',sans-serif;font-size:15pt;font-weight:900;text-transform:uppercase;color:#000;line-height:1.05; }
+.sch-allot { font-family:'Barlow Condensed',sans-serif;font-size:5pt;color:#555;font-weight:600;margin-top:1px;line-height:1.2; }
+.lbl-qty { display:flex;align-items:stretch;flex-shrink:0;background:#fff;color:#000;border-top:1.5px solid #000; }
+.qty-main { flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4px 3px;border-right:1px solid #ccc;background:#f0f0f0; }
+.qty-num { font-family:'Barlow Condensed',sans-serif;font-size:17pt;font-weight:900;color:#000;line-height:1; }
+.qty-unit { font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#333; }
+.qty-side { display:flex;flex-direction:column;justify-content:center;padding:3px 6px;text-align:right;min-width:46px;background:#fff; }
+.qty-boxlabel { font-family:'Barlow Condensed',sans-serif;font-size:7.5pt;font-weight:900;text-transform:uppercase;color:#000; }
+.qty-of { font-family:'Barlow Condensed',sans-serif;font-size:5pt;font-weight:600;color:#555; }
+.qty-loose-note { font-family:'Barlow Condensed',sans-serif;font-size:5pt;font-weight:700;color:#333; }
+.corner-badge { position:absolute;top:0;right:0;background:#000;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:5pt;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:1px 5px;border-bottom-left-radius:2px;border-left:1px solid #333;border-bottom:1px solid #333;line-height:1.4; }
+.lbl.loose{ border-style:dashed;border-color:#555; }
+.lbl.loose .lbl-banner{background:#f5f5f5;border-bottom-color:#555;}
+.lbl.loose .lbl-qty{background:#f5f5f5;border-top:1.5px dashed #555;}
+.lbl.loose .qty-main{background:#f5f5f5;}
+.lbl.loose .corner-badge{background:#333;color:#fff;}
+
+/* MASTERLIST STYLES */
+.masterlist-panel { background:#0d2b0d;border:1px solid #2d6b2d;border-radius:6px;padding:10px;margin-bottom:10px; }
+.ml-truck-tabs { display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap; }
+.ml-truck-btn { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:6px 18px;border-radius:4px;cursor:pointer;border:2px solid #2d6b2d;background:#0a1a0a;color:#7bc97e;transition:all .15s; }
+.ml-truck-btn.t1-active{background:#1e88e5;color:#fff;border-color:#1e88e5;}
+.ml-truck-btn.t2-active{background:#f9a825;color:#000;border-color:#f9a825;}
+.ml-truck-btn.t3-active{background:#ab47bc;color:#fff;border-color:#ab47bc;}
+.ml-truck-btn:hover:not(.t1-active):not(.t2-active):not(.t3-active){background:#163316;color:#fff;}
+.ml-truck-section{display:none;}
+.ml-truck-section.ml-visible{display:block;}
+.ml-print-bar { display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap; }
+.ml-print-bar span { font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7bc97e; }
+.ml-print-btn { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:5px 16px;border-radius:4px;cursor:pointer;border:2px solid #4caf50;background:#4caf50;color:#fff; }
+.ml-print-btn:hover{background:#388e3c;border-color:#388e3c;}
+.ml-screen-header { background:#163316;color:#9dd49f;padding:6px 12px;margin-bottom:10px;border-radius:4px;border-left:4px solid #4caf50;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;gap:12px;align-items:center;flex-wrap:wrap; }
+.ml-screen-header span{color:#4caf50;}
+.ml-page { background:#fff;width:210mm;margin:0 auto 12px;padding:8mm 10mm;font-family:'Barlow Condensed',sans-serif;page-break-after:always;break-after:page; }
+.ml-page-header { border-bottom:3px solid #000;padding-bottom:6px;margin-bottom:8px; }
+.ml-page-title { font-size:16pt;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#000;line-height:1.1; }
+.ml-page-sub { font-size:9pt;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.06em;margin-top:2px; }
+.ml-page-meta { font-size:8pt;font-weight:600;color:#555;margin-top:3px; }
+.ml-summary-box { border:2px solid #000;padding:6px 10px;margin-bottom:10px;background:#f9f9f9;display:flex;gap:20px;flex-wrap:wrap;font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.05em; }
+.ml-summary-box span{color:#000;}
+.ml-summary-box b{font-size:11pt;}
+.ml-drop-block { margin-bottom:10px;page-break-inside:avoid;break-inside:avoid; }
+.ml-drop-header { background:#222;color:#fff;font-size:10pt;font-weight:900;text-transform:uppercase;letter-spacing:.07em;padding:4px 8px;display:flex;justify-content:space-between;align-items:center; }
+.ml-drop-header .drop-totals{font-size:8pt;font-weight:700;color:#ccc;}
+table.ml-table { width:100%;border-collapse:collapse;font-size:8.5pt; }
+table.ml-table th { background:#f0f0f0;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:7pt;padding:3px 6px;border:1px solid #bbb;text-align:left; }
+table.ml-table th.r{text-align:right;}
+table.ml-table td { padding:3px 6px;border:1px solid #ddd;color:#000;vertical-align:middle; }
+table.ml-table td.r{text-align:right;}
+table.ml-table td.cases-col{text-align:right;font-weight:700;}
+table.ml-table td.loose-col{text-align:right;color:#555;font-weight:700;}
+table.ml-table tr:nth-child(even) td{background:#fafafa;}
+table.ml-table tr.sub-total td { background:#e8f5e9;font-weight:900;font-size:8pt;border-top:2px solid #555; }
+table.ml-table tr.grand-total td { background:#000;color:#fff;font-weight:900;font-size:9pt;border-top:3px solid #000; }
+table.ml-table tr.grand-total td.cases-col{color:#a5d6a7;}
+table.ml-table tr.grand-total td.loose-col{color:#ffe082;}
+.ml-signature-row { display:flex;gap:20px;margin-top:16px;flex-wrap:wrap; }
+.ml-sig { flex:1;min-width:140px;border-top:1.5px solid #000;padding-top:4px;font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333; }
+
+@media (max-width: 700px) {
+  #sysA { padding: 6px; }
+  .doc-tab-bar { flex-wrap: wrap; gap: 2px; }
+  .doc-tab-btn { font-size: 10px; padding: 8px 12px; }
+  .panel-shell { padding: 12px 10px; }
+  .settings-grid { grid-template-columns: 1fr; }
+  .s-section.full { grid-column: 1; }
+  .doc-controls { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; }
+  .doc-wrap { overflow-x: auto; }
+  .a4 { min-width: 320px; padding: 6mm 5mm 5mm; }
+  .sig-block { grid-template-columns: 1fr 1fr; }
+  .a4.dr-page { flex-direction: column; width: auto; }
+  .dr-half:first-child { border-right: none; border-bottom: 1px dashed #aaa; padding-right: 0; margin-right: 0; padding-bottom: 8px; margin-bottom: 8px; }
+  .iar-split { grid-template-columns: 1fr; }
+  .iar-half:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SYSTEM NAVIGATION ═══════════ -->
+<div class="system-nav">
+  <div class="system-nav-title">
+    <span>📚</span> DepEd Zamboanga City <span class="dot">·</span> SBFP Unified
+  </div>
+  <button class="sys-tab active" onclick="switchSys('sysA')">📄 Documents (RIS / IAR / DR / PO)</button>
+  <button class="sys-tab" onclick="switchSys('sysB')">🏷 SBFP Labels &amp; Masterlist</button>
+</div>
+
+<!-- ════════════════════════════════════════
+     SYSTEM A — DOCUMENTS
+════════════════════════════════════════ -->
+<div id="sysA" class="sys-panel active">
+
+<!-- DOC TAB BAR -->
+<div class="doc-tab-bar screen-only">
+  <button class="doc-tab-btn settings-btn active" onclick="switchDocTab('settings')">⚙ Settings</button>
+  <button class="doc-tab-btn" onclick="switchDocTab('po')">📄 PO</button>
+  <button class="doc-tab-btn" onclick="switchDocTab('ris')">📋 RIS</button>
+  <button class="doc-tab-btn" onclick="switchDocTab('iar')">✅ IAR</button>
+  <button class="doc-tab-btn" onclick="switchDocTab('dr')">🚚 DR</button>
+  <div style="flex:1;"></div>
+  <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f0f0f0;border:2px solid #000;border-bottom:none;border-radius:6px 6px 0 0;">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#000;white-space:nowrap;">Drop-off Point:</span>
+    <select class="d-sel" id="globalSel" onchange="applyGlobalFilter(this.value)" style="min-width:180px;font-size:11px;padding:4px 6px;border:1.5px solid #000;">
+      <option value="all">— All Schools —</option>
+    </select>
+    <button class="btn btn-blue" onclick="printAll()" style="white-space:nowrap;">🖨 Print (IAR + RIS + DR)</button>
+  </div>
+</div>
+
+<!-- SETTINGS TAB -->
+<div id="tab-settings" class="doc-tab-panel active">
+<div class="panel-shell">
+  <div class="settings-grid">
+    <div class="s-section">
+      <h3>📄 Document Numbers (RIS, IAR &amp; DR shared)</h3>
+      <div class="f-row"><label>RIS No.</label><input class="s-inp" id="g-risNo" value="2026-01-0046"></div>
+      <div class="f-row"><label>IAR No.</label><input class="s-inp" id="g-iarNo" value="2026-01-0046"></div>
+      <div class="f-row"><label>PO No./Date</label><input class="s-inp" id="g-poNo" value="2026-01-0046"></div>
+    </div>
+    <div class="s-section">
+      <h3>🏛 Entity &amp; Supplier</h3>
+      <div class="f-row"><label>Entity Name</label><input class="s-inp" id="g-entity" value="DepEd, Division of Zamboanga City"></div>
+      <div class="f-row"><label>Fund Cluster</label><input class="s-inp" id="g-fundCluster" value=""></div>
+      <div class="f-row"><label>Supplier (IAR)</label><input class="s-inp" id="g-supplier" value="Nine Consumer Goods Trading"></div>
+    </div>
+    <div class="s-section">
+      <h3>✍ Signatories (RIS)</h3>
+      <div class="f-row"><label>Requested By</label><input class="s-inp" id="g-reqBy" value="ROWENA F. LUSAYA, RN"></div>
+      <div class="f-row"><label>↳ Position</label><input class="s-inp" id="g-reqPos" value="Nurse II / SBFP Focal Person — Health and Nutrition Section"></div>
+      <div class="f-row"><label>Approved By</label><input class="s-inp" id="g-appBy" value="MARNIE J. AMPATIN"></div>
+      <div class="f-row"><label>↳ Position</label><input class="s-inp" id="g-appPos" value="Administrative Officer IV — Asset Management Unit"></div>
+      <div class="f-row"><label>Issued By</label><input class="s-inp" id="g-issBy" value="NASSER I. BISNO"></div>
+      <div class="f-row"><label>↳ Position</label><input class="s-inp" id="g-issPos" value="Administrative Aide I — Asset Management Unit"></div>
+    </div>
+    <div class="s-section">
+      <h3>🎯 Purpose (RIS)</h3>
+      <p class="note">Appears on every RIS at the bottom Purpose row.</p>
+      <textarea class="s-ta" id="g-purpose" rows="6">PROCUREMENT OF NUTRITIOUS FOOD PRODUCT (NFP) – CRACKERS WITH JUICE FOR THE SCHOOL-BASED FEEDING PROGRAM IMPLEMENTATION FOR SUMMER LEARNING 2026</textarea>
+    </div>
+    <div class="s-section full">
+      <h3>📦 Item Description — shared by ALL RIS &amp; IAR documents</h3>
+      <p class="note">Edit once here. This will appear in every school's RIS and IAR. Only the <strong>Drop-off point</strong> and <strong>Quantity</strong> are per-school.</p>
+      <textarea class="s-ta" id="g-desc" rows="18">CRACKERS WITH JUICE
+
+Specifications:
+Crackers Good for 41,105 beneficiaries for 2 days
+Crackers Good for 138 beneficiaries for 1 day
+
+CRACKERS
+Flavor: Plain/ Any Flavor
+30-40 gms per pack
+
+Quality: Products received in good condition, no signs of damage in packs, no signs of hole, pest free and not expired, Expiration date should be at least 5 months from the date of manufacturing. Packaging: Individually packed in food-grade pouches. The packaging must clearly and readably indicate the Manufacturing Date and Expiration Date. If Possible, provide and imprinted sign "DepEd SBFP – NOT FOR SALE"
+
+Minimum Amount per serving: Energy 240 – 300 kcal, Sat fat 0-7g, Sugar: 10-25g, Protein: 3-4g, Sodium: 120-200mg
+
+JUICE
+Serving Size: 100ml – 180ml
+
+Fruit juice received in good condition, no signs of damage in food grade pouch, not expired. No Signs of bulging/dents. Packaging: Individually packed in food-grade bottles. The Packaging must clearly and readably indicate the manufacturing and expiration dates. if possible, and imprents sign per pack that indicates "DepEd SBFP – NOT FOR SALE". Expiration date should be at least 6 months from the date of delivery
+
+Minimum Amount per serving: Energy: 100 kcal or more, Sugar: 10-25g, Vitamin C: more than 20mg</textarea>
+    </div>
+    <div class="s-section">
+      <h3>🚚 Delivery Receipt</h3>
+      <div class="f-row"><label>Company Name</label><input class="s-inp" id="g-drCompany" value="Nine Consumer Goods Trading"></div>
+      <div class="f-row"><label>Proprietor</label><input class="s-inp" id="g-drProp" value="Nass P. Tillah – Proprietor"></div>
+      <div class="f-row"><label>VAT/TIN</label><input class="s-inp" id="g-drTin" value="VAT Reg. TIN: 313-814-004-00000"></div>
+      <div class="f-row"><label>Address</label><input class="s-inp" id="g-drAddr" value="Dionio Compound, Sta. Maria, Zamboanga City"></div>
+      <div class="f-row"><label>DR No. Start</label><input class="s-inp" id="g-drStart" value="1000" type="number" min="1"></div>
+      <p class="note">DR numbers are auto-assigned: first school = Start, second = Start+1, etc.</p>
+    </div>
+  </div>
+  <div class="apply-banner">
+    <p>All fields above are <strong>universal</strong> — shared across every school's RIS and IAR. Only <strong>Drop-off point</strong> and <strong>Quantity</strong> are per-school.</p>
+    <button class="btn btn-gold" onclick="applyGlobal()">✔ Apply to All</button>
+    <button class="btn btn-blue" onclick="applyGlobal(); switchDocTab('ris')">Apply &amp; View RIS →</button>
+    <button class="btn btn-green" onclick="applyGlobal(); switchDocTab('iar')">Apply &amp; View IAR →</button>
+  </div>
+</div>
+</div>
+
+<!-- PO TAB -->
+<div id="tab-po" class="doc-tab-panel">
+  <div class="doc-controls screen-only">
+    <span class="show-lbl" style="font-weight:700;">Purchase Order</span>
+    <span class="spacer"></span>
+    <button class="btn btn-blue" onclick="smartPrint('po')">🖨 Print PO</button>
+  </div>
+  <div class="doc-wrap" id="poWrap"></div>
+</div>
+
+<!-- RIS TAB -->
+<div id="tab-ris" class="doc-tab-panel">
+  <div class="doc-controls screen-only">
+    <label>School:</label>
+    <select class="d-sel" id="risSel" onchange="filterRis(this.value)">
+      <option value="all">— All Schools —</option>
+    </select>
+    <label>Qty:</label>
+    <input type="number" class="d-inp d-qty" id="risQtyI" placeholder="qty" min="0">
+    <button class="btn btn-gold" onclick="applyRisQty()">✔ Set Qty</button>
+    <span class="spacer"></span>
+    <span class="show-lbl">Showing: <strong id="risShowLbl">—</strong></span>
+    <button class="btn btn-gray" onclick="filterRis('all'); document.getElementById('risSel').value='all'">Show All</button>
+    <button class="btn btn-blue" onclick="smartPrint('ris')">🖨 Print</button>
+  </div>
+  <div class="doc-wrap" id="risWrap"></div>
+</div>
+
+<!-- IAR TAB -->
+<div id="tab-iar" class="doc-tab-panel">
+  <div class="doc-controls screen-only">
+    <label>School:</label>
+    <select class="d-sel" id="iarSel" onchange="filterIar(this.value)">
+      <option value="all">— All Schools —</option>
+    </select>
+    <label>Qty:</label>
+    <input type="number" class="d-inp d-qty" id="iarQtyI" placeholder="qty" min="0">
+    <button class="btn btn-gold" onclick="applyIarQty()">✔ Set Qty</button>
+    <span class="spacer"></span>
+    <span class="show-lbl">Showing: <strong id="iarShowLbl">—</strong></span>
+    <button class="btn btn-gray" onclick="filterIar('all'); document.getElementById('iarSel').value='all'">Show All</button>
+    <button class="btn btn-blue" onclick="smartPrint('iar')">🖨 Print</button>
+  </div>
+  <div class="doc-wrap" id="iarWrap"></div>
+</div>
+
+<!-- DR TAB -->
+<div id="tab-dr" class="doc-tab-panel">
+  <div class="doc-controls screen-only">
+    <label>School:</label>
+    <select class="d-sel" id="drSel" onchange="filterDr(this.value)">
+      <option value="all">— All Schools —</option>
+    </select>
+    <span class="spacer"></span>
+    <span class="show-lbl">Showing: <strong id="drShowLbl">—</strong></span>
+    <button class="btn btn-gray" onclick="filterDr('all'); document.getElementById('drSel').value='all'">Show All</button>
+    <button class="btn btn-blue" onclick="smartPrint('dr')">🖨 Print</button>
+  </div>
+  <div class="doc-wrap" id="drWrap"></div>
+</div>
+
+</div><!-- /sysA -->
+
+<!-- ════════════════════════════════════════
+     SYSTEM B — SBFP LABELS
+════════════════════════════════════════ -->
+<div id="sysB" class="sys-panel">
+
+<div class="controls">
+  <span id="ctrlTitle">🍋 SBFP Labels 2026</span>
+  <select id="selProduct" onchange="buildAll()" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:6px 12px;border-radius:4px;border:2px solid #f9a825;cursor:pointer;background:#2a1a00;color:#ffe082;">
+    <option value="juice">🍋 Calamansi Juice</option>
+    <option value="crackers">🍪 Rebisco Crackers</option>
+  </select>
+  <select id="selDelivery" onchange="buildAll()">
+    <option value="summer">☀️ Summer Feeding Program 2026</option>
+    <option value="double">📦 5th &amp; 6th Delivery 2026</option>
+  </select>
+  <select id="selTruck" onchange="buildAll()">
+    <option value="all">All Trucks</option>
+    <option value="t1">Truck 1 — West Coast</option>
+    <option value="t2">Truck 2 — East Coast</option>
+    <option value="t3">Truck 3 — City Route</option>
+  </select>
+  <span style="color:#7bc97e;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;">📦 Pcs/Case:</span>
+  <input id="caseSize" type="number" min="1" max="9999" value="100"
+    style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;width:70px;padding:5px 8px;border-radius:4px;border:1px solid #2d6b2d;background:#0d2b0d;color:#fff;text-align:center;"
+    onkeydown="if(event.key==='Enter')buildAll()"/>
+  <button onclick="buildAll()" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:6px 14px;border-radius:4px;border:2px solid #7bc97e;cursor:pointer;background:#163316;color:#7bc97e;">✓ Apply</button>
+  <select id="selPrintScope" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:6px 12px;border-radius:4px;border:1px solid #2d6b2d;cursor:pointer;background:#0d2b0d;color:#fff;">
+    <option value="active">🖨 Print — Active Tab Only</option>
+    <option value="truck">🖨 Print — Active Truck (All Drops)</option>
+    <option value="all">🖨 Print — All Trucks (Everything)</option>
+  </select>
+  <button onclick="doPrint()">🖨 Print</button>
+  <span class="ctrl-stat" id="stat"></span>
+</div>
+
+<div class="status-bar" id="statusBar">
+  <span class="status-bar-title">📦 Delivery Status:</span>
+  <div class="status-progress"><div class="status-progress-fill" id="statusFill" style="width:0%"></div></div>
+  <span class="status-counts"><span class="done-num" id="statusDoneCount">0</span> <span class="total-num">/ <span id="statusTotalCount">0</span> drop-offs delivered</span></span>
+  <button class="status-reset-btn" onclick="resetAllStatus()">✕ Reset All</button>
+</div>
+
+<div class="delivery-dashboard" id="deliveryDashboard">
+  <div class="dd-title">🗺 Delivery Dashboard — click a drop-off to change its status</div>
+  <div id="ddContent"></div>
+</div>
+
+<div class="main-tab-bar">
+  <button class="main-tab-btn active" id="btnLabels" onclick="switchMain('labels')">🏷 Labels</button>
+  <button class="main-tab-btn" id="btnMasterlist" onclick="switchMain('masterlist')">📋 Masterlist</button>
+</div>
+
+<div class="main-panel visible" id="panelLabels">
+  <div class="lbl-tab-bar" id="tabBar"></div>
+  <div id="pages"></div>
+</div>
+
+<div class="main-panel" id="panelMasterlist">
+  <div class="masterlist-panel">
+    <div class="ml-truck-tabs" id="mlTruckTabs"></div>
+    <div id="mlContent"></div>
+  </div>
+</div>
+
+</div><!-- /sysB -->
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   SYSTEM SWITCHER
+════════════════════════════════════════════════════════════ */
+function switchSys(which) {
+  document.querySelectorAll('.sys-panel').forEach(p => p.classList.toggle('active', p.id === which));
+  document.querySelectorAll('.sys-tab').forEach((b,i) => b.classList.toggle('active', ['sysA','sysB'][i] === which));
+}
+
+/* ════════════════════════════════════════════════════════════
+   SECTION A — DOCS JS
+════════════════════════════════════════════════════════════ */
+const schools = [
+  { id:"ayala-central",     name:"Ayala Central School",                    qty:559  },
+  { id:"recodo-es",         name:"Recodo Elementary School",                qty:415  },
+  { id:"cawit",             name:"Cawit Elementary School",                 qty:1067 },
+  { id:"sinunuc",           name:"Sinunuc Elementary School",               qty:699  },
+  { id:"labuan",            name:"Labuan Central School",                   qty:2245 },
+  { id:"patalon",           name:"Patalon Elementary School",               qty:1030 },
+  { id:"talisayan",         name:"Talisayan Elementary School",             qty:2002 },
+  { id:"baliwasan",         name:"Baliwasan Central School",                qty:1991 },
+  { id:"pasonanca",         name:"Pasonanca Elementary School",             qty:727  },
+  { id:"san-roque",         name:"San Roque Elementary School",             qty:745  },
+  { id:"sta-maria",         name:"Sta. Maria Central School",               qty:1090 },
+  { id:"cvd-jalon",         name:"Catalina Vda De Jalon Memorial School",   qty:485  },
+  { id:"zamboanga-central", name:"Zamboanga Central School",                qty:665  },
+  { id:"sta-barbara",       name:"Sta. Barbara Central School",             qty:701  },
+  { id:"tetuan-cs",         name:"Tetuan Central School",                   qty:512  },
+  { id:"vitali",            name:"Vitali Central School",                   qty:857  },
+  { id:"tagasilay",         name:"Tagasilay Elementary School",             qty:513  },
+  { id:"tictapul",          name:"Tictapul Elementary School",              qty:568  },
+  { id:"curuan",            name:"Curuan Central School",                   qty:1130 },
+  { id:"buenavista",        name:"Buenavista Integrated School",            qty:758  },
+  { id:"manicahan",         name:"Manicahan Central School",                qty:1445 },
+  { id:"sangali",           name:"Sangali Elementary School",               qty:1033 },
+  { id:"bunguiao",          name:"Bunguiao Elementary School",              qty:351  },
+  { id:"mercedes",          name:"Mercedes Elementary School",              qty:995  },
+  { id:"taluksangay",       name:"Taluksangay Elementary School",           qty:636  },
+  { id:"culianan",          name:"Culianan Learning Center",                qty:630  },
+  { id:"putik",             name:"Putik Central School",                    qty:694  },
+  { id:"boalan",            name:"Boalan Elementary School",                qty:1661 },
+  { id:"tugbungan",         name:"Tugbungan Elementary School",             qty:484  },
+  { id:"dongems",           name:"Don Gregorio Evangelista Memorial School",qty:730  },
+  { id:"mampang",           name:"Mampang Elementary School",               qty:488  },
+  { id:"talon-talon",       name:"Talon-Talon Central School",              qty:488  },
+  { id:"arena-blanco-east", name:"Arena Blanco East Elementary School",     qty:1479 },
+];
+
+const SD = {};
+schools.forEach(s => { SD[s.id] = { qty: s.qty }; });
+
+function G(id) { return (document.getElementById(id)||{}).value || ''; }
+function cfg() {
+  return {
+    entity: G('g-entity'), fundCluster: G('g-fundCluster'),
+    risNo: G('g-risNo'), iarNo: G('g-iarNo'),
+    poNo: G('g-poNo'), supplier: G('g-supplier'),
+    purpose: G('g-purpose'), desc: G('g-desc'),
+    reqBy: G('g-reqBy'), reqPos: G('g-reqPos'),
+    appBy: G('g-appBy'), appPos: G('g-appPos'),
+    issBy: G('g-issBy'), issPos: G('g-issPos'),
+    drCompany: G('g-drCompany'), drProp: G('g-drProp'),
+    drTin: G('g-drTin'), drAddr: G('g-drAddr'),
+    drStart: G('g-drStart'), drPo: G('g-poNo'),
+  };
+}
+
+function esc(v) {
+  return String(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function pqty(v) { const n=parseInt(String(v).replace(/,/g,''),10); return isNaN(n)?0:n; }
+function handleYN(id, val) {
+  document.getElementById('ry-'+id)?.classList.toggle('selected', val==='yes');
+  document.getElementById('rn-'+id)?.classList.toggle('selected', val==='no');
+}
+
+function buildRIS(s, c) {
+  const qty = SD[s.id].qty;
+  const id = s.id;
+  const dh = esc(c.desc).replace(/\n/g,'<br>');
+  const sigCols = [
+    { label:'Requested by', name:c.reqBy, pos:c.reqPos },
+    { label:'Approved by',  name:c.appBy, pos:c.appPos },
+    { label:'Issued by',    name:c.issBy, pos:c.issPos },
+    { label:'Received by',  name:'',      pos:''        },
+  ].map(sg=>`
+    <div class="sig-col">
+      <div class="sig-hdr">${sg.label}:</div>
+      <div class="sig-line"></div>
+      <input class="sni" value="${esc(sg.name)}" placeholder="Name">
+      <div class="sig-pos"><div class="sig-pos-t">${esc(sg.pos).replace(/—/g,'<br>')}</div></div>
+      <div class="sig-drow"><span class="sig-dlbl">Date:</span><input class="sdi" value="" placeholder=""></div>
+    </div>`).join('');
+  return `
+<div class="a4" id="ris-${id}">
+  <div class="appx">Appendix 63</div>
+  <div class="doc-ttl"><h1>Requisition and Issue Slip</h1></div>
+  <div class="hgrid">
+    <div class="hcell full"><span class="fl">Entity Name:</span><input class="ri" value="${esc(c.entity)}" style="min-width:180px;">&nbsp;&nbsp;<span class="fl">Fund Cluster:</span><input class="ri" value="${esc(c.fundCluster)}" style="min-width:80px;"></div>
+    <div class="hcell"><span class="fl">Division:</span><input class="ri" value=""></div>
+    <div class="hcell"><span class="fl">Responsibility Center Code:</span><input class="ri" value="" style="min-width:50px;"></div>
+    <div class="hcell"><span class="fl">Office / Drop-off:</span><div class="dof-field ris-dof" contenteditable="true">${esc(s.name)}</div></div>
+    <div class="hcell"><span class="fl">RIS No.:</span><input class="ri" value="${esc(c.risNo)}" style="font-weight:700;"></div>
+  </div>
+  <table class="dtable">
+    <thead>
+      <tr><th colspan="4">REQUISITION</th><th colspan="2" class="sa-hdr">Still Available?</th><th colspan="2">ISSUE</th></tr>
+      <tr><th style="width:40px;">Stock No.</th><th style="width:42px;">Unit</th><th>Description</th><th style="width:50px;">Quantity</th><th style="width:32px;" class="sa-hdr">Yes</th><th style="width:32px;" class="sa-hdr">No</th><th style="width:50px;">Quantity</th><th style="width:64px;">Remarks</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tc"><input class="ti" value="1"></td>
+        <td class="tc"><input class="ti" value="packs"></td>
+        <td class="dc"><div class="desc-c">${dh}</div></td>
+        <td class="tc"><input class="ti ris-qty1" value="${qty.toLocaleString()}"></td>
+        <td class="yn-cell"><label class="yn-lbl selected" id="ry-${id}"><input type="radio" name="yn-${id}" value="yes" checked onchange="handleYN('${id}','yes')"><span class="yn-txt">✓</span></label></td>
+        <td class="yn-cell"><label class="yn-lbl" id="rn-${id}"><input type="radio" name="yn-${id}" value="no" onchange="handleYN('${id}','no')"><span class="yn-txt">✗</span></label></td>
+        <td class="tc"><input class="ti ris-qty2" value="${qty.toLocaleString()}"></td>
+        <td class="tc"><input class="ti" value="Issued" style="font-weight:600;color:#1a7a3c;"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="info-row"><span class="fl">Drop Off:</span><div class="dof-field ris-dof" contenteditable="true">${esc(s.name)}</div></div>
+  <div class="info-row pur-row"><span class="fl">Purpose:</span><div class="pur-txt">${esc(c.purpose)}</div></div>
+  <div class="sig-block">${sigCols}</div>
+</div>`;
+}
+
+function buildIAR(s, c) {
+  const qty = SD[s.id].qty;
+  const id = s.id;
+  const dh = esc(c.desc).replace(/\n/g,'<br>');
+  return `
+<div class="a4" id="iar-${id}">
+  <div class="appx">Appendix 62</div>
+  <div class="doc-ttl"><h1>Inspection and Acceptance Report</h1></div>
+  <div class="hgrid">
+    <div class="hcell full"><span class="fl">Entity Name:</span><input class="ri" value="${esc(c.entity)}" style="min-width:200px;">&nbsp;&nbsp;<span class="fl">Fund Cluster:</span><input class="ri" value="${esc(c.fundCluster)}" style="min-width:80px;"></div>
+    <div class="hcell"><span class="fl">Supplier:</span><input class="ri" value="${esc(c.supplier)}" style="min-width:160px;"></div>
+    <div class="hcell"><span class="fl">IAR No.:</span><input class="ri" value="${esc(c.iarNo)}" style="font-weight:700;"></div>
+    <div class="hcell"><span class="fl">PO No./Date:</span><input class="ri" value="${esc(c.poNo)}">&nbsp;<span class="fl">Date:</span><input class="ri" value="" style="min-width:80px;"></div>
+    <div class="hcell"><span class="fl">Invoice No.:</span><input class="ri" value=""></div>
+    <div class="hcell full"><span class="fl">Requisitioning Office / Drop-off:</span><div class="dof-field iar-dof" contenteditable="true">${esc(s.name)}</div>&nbsp;&nbsp;<span class="fl">Resp. Center Code:</span><input class="ri" value="" style="min-width:80px;"></div>
+  </div>
+  <table class="dtable">
+    <thead>
+      <tr><th style="width:44px;">Stock / Property No.</th><th>Description</th><th style="width:44px;">Unit</th><th style="width:110px;">Quantity / Cost / Total Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tc">1</td>
+        <td class="dc iar-desc"><div class="desc-c" style="font-size:8.5px;line-height:1.4;">${dh}</div></td>
+        <td class="tc">packs</td>
+        <td class="tc" style="font-weight:700;"><input class="ti iar-qty" value="${qty.toLocaleString()}" style="font-weight:700;"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="iar-split">
+    <div class="iar-half">
+      <div class="iar-htitle">Inspection</div>
+      <div style="font-size:9px;margin-bottom:5px;"><span class="fl">Date Inspected:</span><input class="ri" value="" style="min-width:110px;"></div>
+      <div style="font-size:9px;margin-bottom:6px;">Inspected, verified and found in order as to quantity and specifications.</div>
+      <div class="iar-sig">
+        <input class="ri sig-over-name" value="" placeholder="Signature over printed name" style="width:100%;margin-bottom:4px;"><br>
+        <input class="ri" value="" placeholder="Position / Designation" style="width:100%;margin-bottom:4px;"><br>
+        <div style="font-weight:700;font-size:9px;margin-top:4px;">Inspectorate Team</div>
+      </div>
+    </div>
+    <div class="iar-half">
+      <div class="iar-htitle">Acceptance</div>
+      <div style="font-size:9px;margin-bottom:5px;"><span class="fl">Date Received:</span><input class="ri" value="" style="min-width:110px;"></div>
+      <div class="iar-chk"><input type="checkbox"><span>Complete</span></div>
+      <div class="iar-chk"><input type="checkbox"><span>Partial (specify qty): <input class="ri" value="" style="min-width:70px;"></span></div>
+      <div class="iar-sig">
+        <input class="ri sig-over-name" value="" placeholder="Signature over printed name" style="width:100%;margin-bottom:4px;"><br>
+        <input class="ri" value="" placeholder="Position / Designation" style="width:100%;margin-bottom:4px;"><br>
+        <div style="font-weight:700;font-size:9px;margin-top:4px;">School Property Custodian</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function buildDR(s, c, drNo) {
+  const qty = SD[s.id].qty;
+  const id = s.id;
+  const drNoStr = String(drNo).padStart(4,'0');
+  const addr = esc(s.name.replace(/Central School|Elementary School|Integrated School|Learning Center/g,'').trim()) + ', Zamboanga City';
+  function half(copyClass) {
+    return `
+<div class="dr-half ${copyClass}">
+  <div class="dr-co-name">${esc(c.drCompany)}</div>
+  <div class="dr-co-sub">${esc(c.drProp)}</div>
+  <div class="dr-co-sub">${esc(c.drTin)}</div>
+  <div class="dr-co-sub">${esc(c.drAddr)}</div>
+  <div class="dr-top-row">
+    <div class="dr-badge">DELIVERY RECEIPT</div>
+    <div class="dr-no-area"><div class="dr-no-label">No. ${drNoStr}</div></div>
+  </div>
+  <div class="dr-date-line"><em>Date</em> &nbsp;<input class="ri" value="" style="min-width:110px;border-bottom:1px solid #000;"></div>
+  <div class="dr-delivered-line"><em>DELIVERED to</em>&nbsp;<div class="dr-dof-field dr-dof" contenteditable="true">${esc(s.name)}</div></div>
+  <div class="dr-addr-block">
+    <div class="dr-addr-row"><em>Address</em>&nbsp;<input class="ri" value="${addr}" style="flex:1;"></div>
+    <div class="dr-tin-row"><span><em>TIN</em>&nbsp;<input class="ri" value="" style="min-width:100px;border-bottom:1px solid #000;"></span><span><em>Terms</em>&nbsp;<input class="ri" value="" style="min-width:80px;border-bottom:1px solid #000;"></span></div>
+  </div>
+  <div class="dr-grid-wrap">
+    <div class="dr-grid-hdr"><span>Qty.</span><span>Unit</span><span>A &nbsp; R &nbsp; T &nbsp; I &nbsp; C &nbsp; L &nbsp; E &nbsp; S</span></div>
+    <div class="dr-grid-lines">
+      <table><colgroup><col><col><col></colgroup><tbody>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+      </tbody></table>
+      <div class="dr-grid-content">
+        <table><colgroup><col><col><col></colgroup><tbody>
+          <tr><td class="tc"></td><td></td><td style="font-weight:700;">PO# ${esc(c.drPo)}</td></tr>
+          <tr><td class="tc" style="font-weight:700;"><input class="dr-qty-inp dr-qty" value="${qty.toLocaleString()}"></td><td class="tc">packs</td><td style="font-weight:700;">Crackers (30-40g) with 100-180ml of Fruit Juice</td></tr>
+          <tr><td></td><td></td><td style="font-weight:700;">PROCUREMENT OF NUTRITIOUS FOOD PRODUCT (NFP) –</td></tr>
+          <tr><td></td><td></td><td style="font-weight:700;">CRACKERS WITH JUICE FOR</td></tr>
+          <tr><td></td><td></td><td style="font-weight:700;">THE SCHOOL-BASED FEEDING PROGRAM</td></tr>
+          <tr><td></td><td></td><td style="font-weight:700;">IMPLEMENTATION FOR SUMMER LEARNING 2026</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+  <div class="dr-bottom">
+    <div class="dr-printer-block">6 bks. (50x2) SN 0601-0900<br>OCN: 93AAU202300000001004<br>Date Issued: 03-16-2023<br>Z. William Printers, Inc., Zambo. City<br>TIN: 005-846-558-000 VAT<br>Printer's Accred. No.93AMP20180000000009<br>Date Issued: December 28, 2018</div>
+    <div class="dr-received-block"><em>Received the above goods and services in<br>good order and condition.</em><div class="dr-sig-line2"></div><em>By:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em><br><em>Customer's Signature over Printed Name</em></div>
+  </div>
+  <div class="dr-not-valid">"THIS DOCUMENT IS NOT VALID FOR CLAIMING INPUT TAXES"</div>
+  <div class="dr-cut-guide">✂ cut here</div>
+</div>`;
+  }
+  return `<div class="a4 dr-page" id="dr-${id}">${half('dr-original')}${half('dr-duplicate')}</div>`;
+}
+
+function buildPO(c) {
+  const totalQty = schools.reduce((s,sc)=>s+SD[sc.id].qty, 0);
+  const unitCost = '21.75';
+  const totalAmt = (totalQty * 21.75).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return `
+<div class="a4 po-page" id="po-main">
+  <div class="po-appx">Appendix 61</div>
+  <div class="po-title">PURCHASE ORDER</div>
+  <div class="po-subtitle">${esc(c.entity)}</div>
+  <table class="po-header-table">
+    <tr><td class="po-lbl">Supplier :</td><td colspan="2" style="text-align:center;font-weight:700;font-size:10px;">${esc(c.supplier.toUpperCase())}</td><td class="po-lbl" style="width:55px;">P.O. No. :</td><td style="text-align:center;font-weight:700;font-size:10.5px;width:110px;">${esc(c.poNo)}</td></tr>
+    <tr><td class="po-lbl">Address :</td><td colspan="2" style="text-align:center;font-size:9.5px;">${esc(c.drAddr)}</td><td class="po-lbl">Date :</td><td style="text-align:center;font-size:9.5px;"><input class="ri ti" value="February 5, 2026" style="text-align:center;font-family:Arial,sans-serif;font-size:9.5px;width:100%;"></td></tr>
+    <tr><td class="po-lbl">TIN :</td><td colspan="2"><input class="ri" value="${esc(c.drTin.replace('VAT Reg. ',''))}" style="font-family:Arial,sans-serif;font-size:9px;width:100%;"></td><td colspan="2" style="font-size:9px;"><strong>Mode of Procurement :</strong> Small Value Procurement</td></tr>
+  </table>
+  <div class="po-gents"><strong>Gentlemen:</strong><br>Please furnish this Office the following articles subject to the terms and conditions contained herein:</div>
+  <div class="po-delivery-row">
+    <div class="po-delivery-cell" style="border-bottom:1px solid #000;"><span class="po-lbl">Place of Delivery :</span><div class="dof-field" contenteditable="true" style="font-family:Arial,sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;border-bottom:none;">32 DROP-OFF POINTS</div></div>
+    <div class="po-delivery-cell" style="border-bottom:1px solid #000;"><span class="po-lbl">Delivery Term</span><input class="ri" value="" style="font-family:Arial,sans-serif;font-size:9px;"></div>
+  </div>
+  <div class="po-delivery-row">
+    <div class="po-delivery-cell"><span class="po-lbl">Date of Delivery :</span><div class="dof-field" contenteditable="true" style="font-family:Arial,sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;border-bottom:none;">WITHIN 7 CALENDAR DAYS UPON RECEIPT OF PO</div></div>
+    <div class="po-delivery-cell"><span class="po-lbl">Payment Term</span><input class="ri" value="" style="font-family:Arial,sans-serif;font-size:9px;"></div>
+  </div>
+  <table class="po-items-table">
+    <thead><tr><th class="po-th-no">Stock/ Property No.</th><th class="po-th-unit">Unit</th><th class="po-th-desc">Description</th><th class="po-th-qty">Quantity</th><th class="po-th-uc">Unit Cost</th><th class="po-th-amt">Amount</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tc" style="font-weight:700;">1</td>
+        <td class="tc">packs</td>
+        <td class="po-desc-cell">
+          <div class="po-section-hdr">CRACKERS WITH JUICE</div>
+          <div style="text-align:center;margin-bottom:3px;">Specifications:</div>
+          <div style="text-align:center;margin-bottom:3px;">Crackers Good for 41,105 beneficiaries for 2 days<br>Crackers Good for 138 beneficiaries for 1 day</div>
+          <div class="po-section-hdr">CRACKERS</div>
+          <div style="text-align:center;margin-bottom:3px;">Flavor: Plain/ Any Flavor<br>30-40 gms per pack</div>
+          <div class="po-para">Quality: Products received in good condition, no signs of damage in packs, no signs of hole, pest free and not expired, Expiration date should be at least 5 months from the date of manufacturing. Packaging: Individually packed in food-grade pouches.</div>
+          <div class="po-para">Minimum Amount per serving: Energy 240 – 300 kcal, Sat fat 0-7g, Sugar: 10-25g, Protein: 3-4g, Sodium: 120-200mg</div>
+          <div class="po-section-hdr" style="margin-top:2px;">JUICE</div>
+          <div style="text-align:center;margin-bottom:3px;">Serving Size: 100ml – 180ml</div>
+          <div class="po-para">Minimum Amount per serving: Energy: 100 kcal or more, Sugar: 10-25g, Vitamin C: more than 20mg</div>
+          <div style="text-align:center;font-weight:700;margin-bottom:2px;">Drop-off points:</div>
+          <div style="text-align:center;">32 Drop-off points (See attached list of DOP and allocation)</div>
+        </td>
+        <td class="tc" style="font-weight:700;vertical-align:top;padding-top:6px;"><input class="ti" value="${totalQty.toLocaleString()}" style="font-family:Arial,sans-serif;font-size:9.5px;font-weight:700;text-align:center;width:100%;"></td>
+        <td class="tc" style="vertical-align:top;padding-top:6px;"><input class="ti" value="${unitCost}" style="font-family:Arial,sans-serif;font-size:9.5px;text-align:center;width:100%;"></td>
+        <td class="tr" style="vertical-align:top;padding-top:6px;"><input class="ti" id="po-total-amt" value="${totalAmt}" style="font-family:Arial,sans-serif;font-size:9.5px;text-align:right;width:100%;"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="po-sig-block">
+    <div class="po-sig-left">
+      <div class="po-sig-hdr">In witness whereof, we have hereunto set our hands this <input class="ri" value="" placeholder="day" style="min-width:30px;width:50px;"> day of <input class="ri" value="" placeholder="month, year" style="min-width:100px;"> at <input class="ri" value="" placeholder="place" style="min-width:80px;">.</div>
+      <div style="font-size:9.5px;font-family:Arial,sans-serif;margin-top:6px;font-style:italic;">CONFORME:</div>
+      <div class="po-sig-line"></div>
+      <input class="po-sig-name" value="${esc(c.drProp.split('–')[0].trim().toUpperCase())}">
+      <div class="po-sig-pos">Signature over Printed Name of Supplier</div>
+      <div class="po-date-row"><strong>Date:</strong><input class="ri" value="" style="flex:1;"></div>
+    </div>
+    <div class="po-sig-right">
+      <div class="po-sig-hdr">Funds Available:</div>
+      <div class="po-sig-line"></div>
+      <input class="po-sig-name" value=""><div class="po-sig-pos">Signature over Printed Name<br>Accountant / Budget Officer</div>
+      <div class="po-date-row"><strong>Date:</strong><input class="ri" value="" style="flex:1;"></div>
+      <div style="margin-top:12px;" class="po-sig-hdr">Approved:</div>
+      <div class="po-sig-line"></div>
+      <input class="po-sig-name" value=""><div class="po-sig-pos">Signature over Printed Name<br>Authorized Official</div>
+      <div class="po-date-row"><strong>Date:</strong><input class="ri" value="" style="flex:1;"></div>
+    </div>
+  </div>
+  <div class="po-footer">0070C0LCR</div>
+</div>`;
+}
+
+function renderAll() {
+  const c = cfg();
+  const rw = document.getElementById('risWrap');
+  const iw = document.getElementById('iarWrap');
+  const dw = document.getElementById('drWrap');
+  const pw = document.getElementById('poWrap');
+  const risH = new Set(), iarH = new Set(), drH = new Set();
+  document.querySelectorAll('#risWrap .a4').forEach(el=>{ if(el.classList.contains('hidden')) risH.add(el.id); });
+  document.querySelectorAll('#iarWrap .a4').forEach(el=>{ if(el.classList.contains('hidden')) iarH.add(el.id); });
+  document.querySelectorAll('#drWrap .a4').forEach(el=>{ if(el.classList.contains('hidden')) drH.add(el.id); });
+  rw.innerHTML=''; iw.innerHTML=''; dw.innerHTML='';
+  if(pw) pw.innerHTML = buildPO(c);
+  const drStart = parseInt(G('g-drStart')||'1000',10);
+  schools.forEach((s,i) => {
+    rw.insertAdjacentHTML('beforeend', buildRIS(s,c));
+    iw.insertAdjacentHTML('beforeend', buildIAR(s,c));
+    dw.insertAdjacentHTML('beforeend', buildDR(s,c,drStart+i));
+  });
+  document.querySelectorAll('#risWrap .a4').forEach(el=>{ if(risH.has(el.id)) el.classList.add('hidden'); });
+  document.querySelectorAll('#iarWrap .a4').forEach(el=>{ if(iarH.has(el.id)) el.classList.add('hidden'); });
+  document.querySelectorAll('#drWrap .a4').forEach(el=>{ if(drH.has(el.id)) el.classList.add('hidden'); });
+  schools.forEach(s => {
+    const id = s.id;
+    const risDoc = document.getElementById('ris-'+id);
+    const iarDoc = document.getElementById('iar-'+id);
+    const drDoc  = document.getElementById('dr-'+id);
+    if (!risDoc || !iarDoc) return;
+    const rq1 = risDoc.querySelector('.ris-qty1');
+    const rq2 = risDoc.querySelector('.ris-qty2');
+    const iq  = iarDoc.querySelector('.iar-qty');
+    const dqs = drDoc ? drDoc.querySelectorAll('.dr-qty') : [];
+    function syncQty(val) {
+      SD[id].qty = pqty(val);
+      if(rq1) rq1.value = val;
+      if(rq2) rq2.value = val;
+      if(iq)  iq.value  = val;
+      dqs.forEach(d=>{ d.value = val; });
+    }
+    if(rq1) rq1.addEventListener('input', e => syncQty(e.target.value));
+    if(rq2) rq2.addEventListener('input', e => syncQty(e.target.value));
+    if(iq)  iq.addEventListener('input',  e => syncQty(e.target.value));
+    dqs.forEach(d => d.addEventListener('input', e => syncQty(e.target.value)));
+    const risDofs = risDoc.querySelectorAll('.ris-dof');
+    const iarDof  = iarDoc.querySelector('.iar-dof');
+    const drDofs  = drDoc ? drDoc.querySelectorAll('.dr-dof') : [];
+    function setDof(el, val) { if(el.getAttribute('contenteditable') !== null) el.textContent = val; else el.value = val; }
+    function getDof(el) { return el.getAttribute('contenteditable') !== null ? el.textContent : el.value; }
+    function syncDof(val, skip) {
+      risDofs.forEach(x=>{ if(x!==skip) setDof(x, val); });
+      if(iarDof && iarDof!==skip) setDof(iarDof, val);
+      drDofs.forEach(x=>{ if(x!==skip) setDof(x, val); });
+    }
+    risDofs.forEach(el => el.addEventListener('input', e => syncDof(getDof(e.target), e.target)));
+    if(iarDof) iarDof.addEventListener('input', e => syncDof(getDof(e.target), e.target));
+    drDofs.forEach(el => el.addEventListener('input', e => syncDof(getDof(e.target), e.target)));
+  });
+}
+
+const risSel = document.getElementById('risSel');
+const risQtyI= document.getElementById('risQtyI');
+const risShowLbl = document.getElementById('risShowLbl');
+schools.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; risSel.appendChild(o); });
+
+function filterRis(val) {
+  document.querySelectorAll('#risWrap .a4').forEach(el => { el.classList.toggle('hidden', val!=='all' && el.id!=='ris-'+val); });
+  if(val==='all') { risQtyI.value=''; risShowLbl.textContent='All Schools'; }
+  else { risQtyI.value=SD[val]?.qty??''; risShowLbl.textContent=schools.find(s=>s.id===val)?.name||val; }
+}
+function applyRisQty() {
+  const val=risSel.value, nq=parseInt(risQtyI.value,10);
+  if(isNaN(nq)||nq<0) return;
+  const ids = val==='all' ? schools.map(s=>s.id) : [val];
+  ids.forEach(id => {
+    SD[id].qty=nq;
+    const rDoc=document.getElementById('ris-'+id);
+    const iDoc=document.getElementById('iar-'+id);
+    const dDoc=document.getElementById('dr-'+id);
+    if(rDoc){ rDoc.querySelector('.ris-qty1').value=nq.toLocaleString(); rDoc.querySelector('.ris-qty2').value=nq.toLocaleString(); }
+    if(iDoc){ const q=iDoc.querySelector('.iar-qty'); if(q) q.value=nq.toLocaleString(); }
+    if(dDoc){ dDoc.querySelectorAll('.dr-qty').forEach(q=>q.value=nq.toLocaleString()); }
+  });
+}
+
+const iarSel = document.getElementById('iarSel');
+const iarQtyI= document.getElementById('iarQtyI');
+const iarShowLbl = document.getElementById('iarShowLbl');
+schools.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; iarSel.appendChild(o); });
+
+function filterIar(val) {
+  document.querySelectorAll('#iarWrap .a4').forEach(el => { el.classList.toggle('hidden', val!=='all' && el.id!=='iar-'+val); });
+  if(val==='all') { iarQtyI.value=''; iarShowLbl.textContent='All Schools'; }
+  else { iarQtyI.value=SD[val]?.qty??''; iarShowLbl.textContent=schools.find(s=>s.id===val)?.name||val; }
+}
+function applyIarQty() {
+  const val=iarSel.value, nq=parseInt(iarQtyI.value,10);
+  if(isNaN(nq)||nq<0) return;
+  const ids = val==='all' ? schools.map(s=>s.id) : [val];
+  ids.forEach(id => {
+    SD[id].qty=nq;
+    const rDoc=document.getElementById('ris-'+id);
+    const iDoc=document.getElementById('iar-'+id);
+    const dDoc=document.getElementById('dr-'+id);
+    if(rDoc){ rDoc.querySelector('.ris-qty1').value=nq.toLocaleString(); rDoc.querySelector('.ris-qty2').value=nq.toLocaleString(); }
+    if(iDoc){ const q=iDoc.querySelector('.iar-qty'); if(q) q.value=nq.toLocaleString(); }
+    if(dDoc){ dDoc.querySelectorAll('.dr-qty').forEach(q=>q.value=nq.toLocaleString()); }
+  });
+}
+
+const drSel = document.getElementById('drSel');
+const drShowLbl = document.getElementById('drShowLbl');
+schools.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; drSel.appendChild(o); });
+
+function filterDr(val) {
+  document.querySelectorAll('#drWrap .a4').forEach(el => { el.classList.toggle('hidden', val!=='all' && el.id!=='dr-'+val); });
+  if(val==='all') drShowLbl.textContent='All Schools';
+  else drShowLbl.textContent=schools.find(s=>s.id===val)?.name||val;
+}
+
+const globalSel = document.getElementById('globalSel');
+schools.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; globalSel.appendChild(o); });
+
+function applyGlobalFilter(val) {
+  risSel.value = val; filterRis(val);
+  iarSel.value = val; filterIar(val);
+  drSel.value  = val; filterDr(val);
+}
+
+function applyGlobal() { renderAll(); }
+
+function getPrintContainer() {
+  let el = document.getElementById('printOrderContainer');
+  if (!el) { el = document.createElement('div'); el.id = 'printOrderContainer'; document.body.appendChild(el); }
+  return el;
+}
+
+function doPrintGrouped(targetSchools) {
+  const pc = getPrintContainer();
+  pc.innerHTML = '';
+  targetSchools.forEach(s => {
+    const iarEl = document.getElementById('iar-'+s.id);
+    const risEl = document.getElementById('ris-'+s.id);
+    const drEl  = document.getElementById('dr-'+s.id);
+    if(iarEl) pc.appendChild(iarEl.cloneNode(true));
+    if(risEl) pc.appendChild(risEl.cloneNode(true));
+    if(drEl)  pc.appendChild(drEl.cloneNode(true));
+  });
+  ['risWrap','iarWrap','drWrap'].forEach(wid => { const w=document.getElementById(wid); if(w) w.classList.add('print-hidden-wrap'); });
+  ['tab-ris','tab-iar','tab-dr'].forEach(pid => { const p=document.getElementById(pid); if(p) p.classList.add('print-active'); });
+  document.getElementById('tab-settings')?.classList.remove('print-active');
+  window.print();
+  pc.innerHTML = '';
+  ['risWrap','iarWrap','drWrap'].forEach(wid => { const w=document.getElementById(wid); if(w) w.classList.remove('print-hidden-wrap'); });
+  ['tab-ris','tab-iar','tab-dr'].forEach(pid => { const p=document.getElementById(pid); if(p && !p.classList.contains('active')) p.classList.remove('print-active'); });
+}
+
+function printAll() {
+  const selVal = globalSel.value;
+  const targets = selVal === 'all' ? schools : schools.filter(s => s.id === selVal);
+  doPrintGrouped(targets);
+}
+
+function switchDocTab(tab) {
+  const names=['settings','po','ris','iar','dr'];
+  document.querySelectorAll('.doc-tab-btn').forEach((b,i)=>b.classList.toggle('active', names[i]===tab));
+  document.querySelectorAll('.doc-tab-panel').forEach(p=>{
+    const active = p.id==='tab-'+tab;
+    p.classList.toggle('active', active);
+    if(tab!=='settings') p.classList.toggle('print-active', active);
+    else p.classList.remove('print-active');
+  });
+}
+
+function smartPrint(which) {
+  if (which === 'po') {
+    const poEl = document.getElementById('po-main');
+    if (!poEl) return;
+    const pc = getPrintContainer();
+    pc.innerHTML = '';
+    pc.appendChild(poEl.cloneNode(true));
+    ['risWrap','iarWrap','drWrap','poWrap'].forEach(wid => { const w=document.getElementById(wid); if(w) w.classList.add('print-hidden-wrap'); });
+    ['tab-po','tab-ris','tab-iar','tab-dr'].forEach(pid => { const p=document.getElementById(pid); if(p) p.classList.add('print-active'); });
+    window.print();
+    pc.innerHTML = '';
+    ['risWrap','iarWrap','drWrap','poWrap'].forEach(wid => { const w=document.getElementById(wid); if(w) w.classList.remove('print-hidden-wrap'); });
+    ['tab-po','tab-ris','tab-iar','tab-dr'].forEach(pid => { const p=document.getElementById(pid); if(p && !p.classList.contains('active')) p.classList.remove('print-active'); });
+    return;
+  }
+  const selId = which === 'ris' ? 'risSel' : which === 'iar' ? 'iarSel' : 'drSel';
+  const selVal = document.getElementById(selId)?.value || 'all';
+  const targets = selVal === 'all' ? schools : schools.filter(s => s.id === selVal);
+  doPrintGrouped(targets);
+}
+
+document.getElementById('g-drStart')?.addEventListener('input', () => renderAll());
+
+/* ════════════════════════════════════════════════════════════
+   SECTION B — SBFP LABELS JS
+════════════════════════════════════════════════════════════ */
+const SUMMER = [
+  {id:'t1',label:'Truck 1',route:'West Coast',drops:[
+    {drop:'Talisayan ES',dn:1,schools:[{n:'Anuling ES',q:247},{n:'Mt. View ES',q:87},{n:'Pamucutan ES',q:384},{n:'Cadalagan ES',q:220},{n:'Camp Susana ES',q:414},{n:'Datu Panguluhan ES',q:179},{n:'Pole Diutay ES',q:85},{n:'Pole Grande ES',q:26},{n:'San Ramon ES',q:182},{n:'Talisayan ES',q:178}]},
+    {drop:'Patalon ES',dn:2,schools:[{n:'Patalon ES',q:667},{n:'Montecentral PS Extension',q:83},{n:'Sinubong ES',q:280}]},
+    {drop:'Labuan CS',dn:3,schools:[{n:'Campo Uno PS',q:62},{n:'Labuan CS',q:1953},{n:'Latap ES',q:43},{n:'Latap ES – Lacumba Annex',q:42},{n:'Latap ES – Cabonegro Annex',q:54},{n:'Limpapa ES',q:91}]},
+    {drop:'Ayala CS',dn:4,schools:[{n:'Ayala CS',q:559}]},
+    {drop:'Recodo ES',dn:5,schools:[{n:'Recodo ES',q:415}]},
+    {drop:'Cawit ES',dn:6,schools:[{n:'Baluno ES',q:118},{n:'Cawit ES',q:230},{n:'Lima ES',q:33},{n:'Tulungatung ES',q:560},{n:'Zambame ES',q:16},{n:'Cabigan ES',q:34},{n:'Maasin LC',q:76}]},
+    {drop:'Sinunuc ES',dn:7,schools:[{n:'Sinunuc ES',q:671},{n:'Sto. Niño ES',q:28}]},
+    {drop:'Baliwasan CS',dn:8,schools:[{n:'Baliwasan CS',q:388},{n:'San Jose Gusu ES',q:406},{n:'Southcom ES',q:371},{n:'Capisan ES',q:49},{n:'Malagutay ES',q:45},{n:'Southern Support Comm. ES',q:173},{n:'John Spirig Sr. Memorial ES',q:559}]},
+    {drop:'Sta. Maria CS',dn:9,schools:[{n:'EAAB ES',q:79},{n:'Sta. Maria CS',q:875},{n:'Cabatangan ES',q:136}]},
+    {drop:'Catalina Vda. de Jalon MS',dn:10,schools:[{n:'Catalina Vda. de Jalon MS',q:485}]},
+  ]},
+  {id:'t2',label:'Truck 2',route:'East Coast',drops:[
+    {drop:'Vitali CS',dn:1,schools:[{n:'Bincul ES',q:63},{n:'Dr. Manuel Diaz MES',q:99},{n:'Linduman ES',q:28},{n:'Mangusu IS',q:18},{n:'Matiti ES',q:18},{n:'Mulawin ES',q:74},{n:'Sibuktok ES',q:32},{n:'Sibuktok PS Annex',q:27},{n:'Tagpangi ES',q:24},{n:'Sta. Fe Extension',q:10},{n:'Tamion ES',q:11},{n:'Taloptap ES',q:35},{n:'Tindalo ES',q:216},{n:'Vitali CS',q:202}]},
+    {drop:'Tictapul ES',dn:2,schools:[{n:'Bermuda ES',q:9},{n:'Licomo IS',q:45},{n:'Limaong ES',q:36},{n:'Malanta ES',q:80},{n:'Matarling ES',q:14},{n:'Sinoropan ES',q:72},{n:'Talaga ES',q:72},{n:'Tarlago ES',q:46},{n:'Tictapul ES',q:97},{n:'Tigui ES',q:18},{n:'Tumitus ES',q:79}]},
+    {drop:'Tagasilay ES',dn:3,schools:[{n:'Davuy ES',q:70},{n:'Merloquet ES',q:47},{n:'Sibulao ES',q:125},{n:'Tagasilay ES',q:203},{n:'Taguiti ES',q:16},{n:'Tigbalabag ES',q:52}]},
+    {drop:'Curuan CS',dn:4,schools:[{n:'Bagacay ES',q:38},{n:'Camp Pilar ES',q:49},{n:'Cansilayan ES',q:85},{n:'Cristino M. Paragas MES',q:88},{n:'Curuan CS',q:496},{n:'Dita ES',q:63},{n:'Mina ES',q:40},{n:'Lubigan ES',q:31},{n:'Natividad Medalle PES',q:68},{n:'Panubigan ES',q:102},{n:'Sapa Manok ES',q:27},{n:'Sibutat ES',q:25},{n:'Upper Masaba ES',q:18}]},
+    {drop:'Buenavista IS',dn:5,schools:[{n:'Buenavista IS',q:406},{n:'Calabasa ES',q:53},{n:'Latuan ES',q:60},{n:'Marangan ES',q:28},{n:'Muti ES',q:68},{n:'Niyog-Niyog ES',q:66},{n:'Sapa Dulian ES',q:20},{n:'Sapa Moro ES',q:48},{n:'Simanta ES',q:9}]},
+    {drop:'Manicahan CS',dn:6,schools:[{n:'Magsaysay ES',q:147},{n:'Manicahan CS',q:402},{n:'Manicahan Pob. ES',q:495},{n:'Poso ES',q:43},{n:'Victoria ES',q:358}]},
+    {drop:'Sangali ES',dn:7,schools:[{n:'Bolong ES',q:116},{n:'Don FOCS MES',q:40},{n:'Mangga ES',q:58},{n:'Pasilmanta ES',q:300},{n:'Sangali ES',q:243},{n:'Sinunuk ES',q:38},{n:'Siguinan ES',q:73},{n:'Tumalutab ES',q:165}]},
+    {drop:'Bunguiao ES',dn:8,schools:[{n:'Bunguiao ES',q:145},{n:'Camp Socorro ES',q:30},{n:'Dulian ES',q:33},{n:'Eligna ES',q:7},{n:'Nangka ES',q:14},{n:'Sapa Seco ES',q:30},{n:'Shigeru ES',q:54},{n:'Udjung ES',q:14},{n:'Baluno ES',q:24}]},
+    {drop:'Mercedes CS',dn:9,schools:[{n:'Buenakapok ES',q:70},{n:'Imelda ES',q:88},{n:'Lanote ES',q:31},{n:'Lanzones ES',q:51},{n:'Lumbayao ES',q:59},{n:'Mercedes CS',q:439},{n:'Mulu-Muluan ES',q:184},{n:'Pangulayan ES',q:29},{n:'Tolosa ES',q:44}]},
+    {drop:'Taluksangay ES',dn:10,schools:[{n:'Busay ES',q:111},{n:'Landang Laum ES',q:105},{n:'Talabaan ES',q:247},{n:'Taluksangay ES',q:131},{n:'Tuan Datu Hanis',q:42}]},
+    {drop:'Culianan LC',dn:11,schools:[{n:'Cabaluay ES',q:159},{n:'Cabaluay Vida Vista ES',q:21},{n:'Cacao ES',q:43},{n:'Culianan LC',q:223},{n:'Guisao ES',q:72},{n:'Islamia ES',q:58},{n:'Lapakan ES',q:40},{n:'Nangka ES',q:14}]},
+    {drop:'Putik CS',dn:12,schools:[{n:'Divisoria ES',q:243},{n:'Lunzuran ES',q:199},{n:'Putik CS',q:252}]},
+    {drop:'Boalan ES',dn:13,schools:[{n:'Balunu ES',q:76},{n:'Boalan ES',q:444},{n:'Lugakit ES',q:15},{n:'Lumayang ES',q:208},{n:'Lumbangan ES',q:132},{n:'Pasobolong IS',q:217},{n:'Salaan ES',q:56},{n:'Zambowood ES',q:513}]},
+  ]},
+  {id:'t3',label:'Truck 3',route:'City Route',drops:[
+    {drop:'Zamboanga CS',dn:1,schools:[{n:'Canelar IS',q:150},{n:'Zamboanga CS',q:515}]},
+    {drop:'Sta. Barbara CS',dn:2,schools:[{n:'Mariki ES',q:101},{n:'Rio Hondo ES',q:322},{n:'Sta. Barbara CS',q:278}]},
+    {drop:'Tetuan CS',dn:3,schools:[{n:'Guiwan ES',q:92},{n:'Tetuan CS',q:420}]},
+    {drop:'DGEMS',dn:4,schools:[{n:'Bihing Tahik PS',q:130},{n:'DGEMS',q:600}]},
+    {drop:'Tugbungan ES',dn:5,schools:[{n:'Tugbungan ES',q:484}]},
+    {drop:'San Roque ES',dn:6,schools:[{n:'Salum ES',q:143},{n:'San Roque ES',q:602}]},
+    {drop:'Pasonanca ES',dn:7,schools:[{n:'Bandera ES',q:22},{n:'Dulian ES',q:17},{n:'Luyahan ES',q:46},{n:'Muruk ES',q:12},{n:'Pasonanca ES',q:502},{n:'Upper Pasonanca ES',q:128}]},
+    {drop:'Talon-Talon ES',dn:8,schools:[{n:'Talon-Talon ES',q:488}]},
+    {drop:'Mampang ES',dn:9,schools:[{n:'Mampang ES',q:488}]},
+    {drop:'Arena Blanco ES',dn:10,schools:[{n:'Arena Blanco East ES',q:490},{n:'Arena Blanco West ES',q:150},{n:'Landang Gua ES',q:82},{n:'Manalipa IS',q:35},{n:'Pangapuyan ES',q:33},{n:'Panganak ES',q:200},{n:'Tigtabon ES',q:489}]},
+  ]},
+];
+
+const DOUBLE = [
+  {id:'t1',label:'Truck 1',route:'West Coast',drops:[
+    {drop:'Talisayan ES',dn:1,schools:[{n:'Anuling ES',q:310},{n:'Cadalagan ES',q:464},{n:'Camp Susana ES',q:348},{n:'Datu Panguluhan ES',q:132},{n:'Pamucutan ES',q:498},{n:'Pole Diutay ES',q:148},{n:'Pole Grande ES',q:86},{n:'San Ramon ES',q:288},{n:'Talisayan ES',q:620}]},
+    {drop:'Patalon ES',dn:2,schools:[{n:'Mt. View ES',q:136},{n:'Patalon ES',q:918},{n:'Montecentral ES',q:106},{n:'Sinubong ES',q:320}]},
+    {drop:'Labuan CS',dn:3,schools:[{n:'Cabonegro PS',q:188},{n:'Lacumba PS',q:156},{n:'Latap ES',q:214},{n:'Labuan CS',q:2092},{n:'Limpapa ES',q:422},{n:'Campo Uno PS',q:172}]},
+    {drop:'Ayala CS',dn:4,schools:[{n:'Ayala Central',q:2160}]},
+    {drop:'Recodo ES',dn:5,schools:[{n:'Recodo ES',q:2060}]},
+    {drop:'Cawit ES',dn:6,schools:[{n:'Cawit ES',q:816},{n:'Baluno ES',q:220},{n:'Lima ES',q:64},{n:'Tulungatung ES',q:1142},{n:'Zambame ES',q:72}]},
+    {drop:'Sinunuc ES',dn:7,schools:[{n:'Cabigan ES',q:212},{n:'Maasin Learning Center',q:634},{n:'Sto. Niño ES',q:148},{n:'Sinunuc ES',q:1614}]},
+    {drop:'Baliwasan CS',dn:8,schools:[{n:'Capisan ES',q:232},{n:'Malagutay ES',q:454},{n:'SCC ES',q:1114},{n:'John Spirig Sr. MES',q:988},{n:'San Jose Gusu ES',q:962},{n:'Southcom ES',q:1746},{n:'Baliwasan CS',q:1048}]},
+    {drop:'Sta. Maria CS',dn:9,schools:[{n:'Cabatangan ES',q:516},{n:'EAAB Elem. School',q:366},{n:'Sta. Maria CS',q:1416}]},
+    {drop:'Catalina Vda. de Jalon MS',dn:10,schools:[{n:'Catalina Vda. de Jalon MS',q:1508}]},
+  ]},
+  {id:'t2',label:'Truck 2',route:'East Coast',drops:[
+    {drop:'Vitali CS',dn:1,schools:[{n:'Bincul ES',q:162},{n:'Dr. Diaz MES',q:232},{n:'Linduman ES',q:194},{n:'Mangusu IS',q:252},{n:'Matiti ES',q:90},{n:'Mulawin ES',q:162},{n:'Sibuktok (Annex)',q:122},{n:'Sibuktok ES',q:270},{n:'Tagpangi ES',q:96},{n:'Sta. Fe (Annex)',q:98},{n:'Tamion ES',q:98},{n:'Taloptap ES',q:244},{n:'Tindalo ES',q:142},{n:'Vitali CS',q:538}]},
+    {drop:'Tagasilay ES',dn:2,schools:[{n:'Davuy ES',q:196},{n:'Merloquet ES',q:82},{n:'Sibulao ES',q:190},{n:'Tagasilay ES',q:562},{n:'Taguiti ES',q:170},{n:'Tigbalabag ES',q:206}]},
+    {drop:'Tictapul ES',dn:3,schools:[{n:'Bermuda ES',q:58},{n:'Licomo ES',q:272},{n:'Limaong ES',q:248},{n:'Malanta ES',q:108},{n:'Matarling ES',q:50},{n:'Sinoropan ES',q:200},{n:'Talaga ES',q:132},{n:'Tarlago ES',q:138},{n:'Tictapul ES',q:494},{n:'Tigui ES',q:130},{n:'Tumitus ES',q:356}]},
+    {drop:'Curuan CS',dn:4,schools:[{n:'Bagacay ES',q:66},{n:'Camp Pilar ES',q:118},{n:'Cansilayan ES',q:92},{n:'Cristino Paragas MES',q:392},{n:'Curuan CS',q:768},{n:'Dita ES',q:370},{n:'Lubigan ES',q:306},{n:'Mina ES',q:172},{n:'Panubigan ES',q:196},{n:'Natividad Medalle PES',q:148},{n:'Sapa Manok ES',q:86},{n:'Sibutat ES',q:140},{n:'Upper Masaba ES',q:46}]},
+    {drop:'Buenavista IS',dn:5,schools:[{n:'Buenavista IS',q:708},{n:'Calabasa ES',q:232},{n:'Latuan ES',q:128},{n:'Marangan ES',q:186},{n:'Muti ES',q:190},{n:'Niyog-Niyog ES',q:244},{n:'Sapa Dulian ES',q:108},{n:'Sapa Moro ES',q:176},{n:'Simanta ES',q:84}]},
+    {drop:'Manicahan CS',dn:6,schools:[{n:'Magsaysay ES',q:244},{n:'Manicahan CS',q:524},{n:'Manicahan Pob. ES',q:872},{n:'Poso ES',q:164},{n:'Victoria ES',q:598}]},
+    {drop:'Sangali ES',dn:7,schools:[{n:'Bolong ES',q:538},{n:'Don FOCS MES',q:182},{n:'Mangga ES',q:228},{n:'Pasilmanta ES',q:592},{n:'Sangali ES',q:2298},{n:'Siguinan ES',q:128},{n:'Sinunuk ES',q:134},{n:'Tumalutab ES',q:708}]},
+    {drop:'Mercedes CS',dn:8,schools:[{n:'Buenakapok ES',q:198},{n:'Imelda ES',q:140},{n:'Lanote ES',q:70},{n:'Lanzones ES',q:98},{n:'Lumbayao ES',q:86},{n:'Mercedes CS',q:1074},{n:'Mulu-Muluan ES',q:428},{n:'Pangulayan ES',q:294},{n:'Tolosa ES',q:72}]},
+    {drop:'Culianan LC',dn:9,schools:[{n:'Cabaluay ES',q:512},{n:'Vda Vista ES',q:120},{n:'Cacao ES',q:110},{n:'Culianan LC',q:546},{n:'Guisao ES',q:142},{n:'Islamia ES',q:208},{n:'Lapakan ES',q:120},{n:'Nangka ES',q:118}]},
+    {drop:'Putik CS',dn:10,schools:[{n:'Putik CS',q:1282},{n:'Divisoria ES',q:632},{n:'Lunzuran ES',q:506}]},
+    {drop:'Boalan ES',dn:11,schools:[{n:'Balunu ES',q:106},{n:'Boalan ES',q:1132},{n:'Lugakit ES',q:15},{n:'Lumayang ES',q:128},{n:'Lumbangan ES',q:514},{n:'Pasobolong IS',q:614},{n:'Salaan ES',q:266},{n:'Zambowood ES',q:966}]},
+  ]},
+  {id:'t3',label:'Truck 3',route:'City Route',drops:[
+    {drop:'Zamboanga CS',dn:1,schools:[{n:'Canelar ES',q:658},{n:'Zamboanga CS',q:1492}]},
+    {drop:'Sta. Barbara CS',dn:2,schools:[{n:'Mariki ES',q:802},{n:'Rio Hondo ES',q:568},{n:'Sta. Barbara CS',q:1494},{n:'Bihing Tahik PS',q:726}]},
+    {drop:'DGEMS',dn:3,schools:[{n:'DGEMS',q:2264}]},
+    {drop:'Tugbungan ES',dn:4,schools:[{n:'Tugbungan ES',q:1972}]},
+    {drop:'Pasonanca ES',dn:5,schools:[{n:'Bandera ES',q:104},{n:'Dulian ES',q:104},{n:'Luyahan ES',q:460},{n:'Muruk ES',q:42},{n:'Pasonanca ES',q:732},{n:'Upper Pasonanca ES',q:224}]},
+    {drop:'San Roque ES',dn:6,schools:[{n:'Salum ES',q:524},{n:'San Roque ES',q:1630}]},
+    {drop:'Taluksangay ES',dn:7,schools:[{n:'Busay ES',q:316},{n:'Landang Laum ES',q:210},{n:'Talabaan ES',q:760},{n:'Taluksangay ES',q:710},{n:'Tuan Datu HAN IS',q:520}]},
+    {drop:'Bunguiao ES',dn:8,schools:[{n:'Baluno ES',q:58},{n:'Bunguiao ES',q:550},{n:'Camp Socorro ES',q:78},{n:'Dulian ES',q:96},{n:'Eligna ES',q:64},{n:'Nangka ES',q:72},{n:'Sapa Seco ES',q:116},{n:'Shigeru ES',q:154},{n:'Udjung ES',q:68}]},
+    {drop:'Mampang ES',dn:9,schools:[{n:'Mampang ES',q:1740}]},
+    {drop:'Talon-Talon CS',dn:10,schools:[{n:'Talon-Talon CS',q:2852}]},
+    {drop:'Arena Blanco ES',dn:11,schools:[{n:'Arena Blanco East ES',q:1446},{n:'Arena Blanco West ES',q:730},{n:'Tigtabon ES',q:548},{n:'Pangapuyan ES',q:244},{n:'Landang Gua ES',q:530},{n:'Manalipa IS',q:224},{n:'Panganak ES',q:156}]},
+  ]},
+];
+
+function getCase() { const v=parseInt(document.getElementById('caseSize').value,10); return (v&&v>0)?v:100; }
+function getProduct() { return document.getElementById('selProduct').value; }
+function getProductLabel() { return getProduct()==='crackers'?'Rebisco Crackers':'Calamansi Juice'; }
+function getProductEmoji() { return getProduct()==='crackers'?'🍪':'🍋'; }
+function getCurrentData() {
+  const delivery=document.getElementById('selDelivery').value;
+  const truckFilter=document.getElementById('selTruck').value;
+  const trucks=delivery==='summer'?SUMMER:DOUBLE;
+  const progTag=delivery==='summer'?'summer':'double';
+  const progLabel=delivery==='summer'?'Summer Feeding 2026':'5th & 6th Delivery 2026';
+  const filtered=truckFilter==='all'?trucks:trucks.filter(t=>t.id===truckFilter);
+  return {trucks:filtered,progTag,progLabel,delivery};
+}
+
+function switchMain(tab) {
+  document.getElementById('panelLabels').classList.toggle('visible', tab==='labels');
+  document.getElementById('panelMasterlist').classList.toggle('visible', tab==='masterlist');
+  document.getElementById('btnLabels').classList.toggle('active', tab==='labels');
+  document.getElementById('btnMasterlist').classList.toggle('active', tab==='masterlist');
+}
+
+function buildDropLabels(drop, truck, progTag) {
+  const CASE=getCase(), product=getProduct(), productLabel=getProductLabel();
+  const out=[];
+  drop.schools.forEach(s => {
+    if(s.q<=0) return;
+    const full=Math.floor(s.q/CASE), loose=s.q%CASE, total=full+(loose>0?1:0);
+    for(let b=1;b<=full;b++) out.push({type:'full',prog:progTag,truck:truck.label,route:truck.route,drop:drop.drop,dn:drop.dn,school:s.n,qty:CASE,boxNum:b,totalBoxes:total,full,loose,schoolTotal:s.q,caseSize:CASE,product,productLabel});
+    if(loose>0) out.push({type:'loose',prog:progTag,truck:truck.label,route:truck.route,drop:drop.drop,dn:drop.dn,school:s.n,qty:loose,boxNum:full+1,totalBoxes:total,full,loose,schoolTotal:s.q,caseSize:CASE,product,productLabel});
+  });
+  return out;
+}
+
+function makeLbl(l) {
+  const isLoose=l.type==='loose';
+  const progLine=l.prog==='summer'?'Summer Feeding Program 2026':'5th &amp; 6th Delivery 2026';
+  const allot=`${l.schoolTotal.toLocaleString()} pcs total · ${l.full} case${l.full!==1?'s':''}${l.loose>0?' + '+l.loose+' pcs loose':''}`;
+  const isCrackers=l.product==='crackers';
+  const prodBg=isCrackers?'#fff8ee':'#fff';
+  const prodBorder=isCrackers?'#c0770a':'#000';
+  const progBg=isCrackers?'#fff3e0':'#f0f0f0';
+  return `<div class="lbl${isLoose?' loose':''}" style="${isCrackers?'border-color:#c0770a;':''}">
+    <div class="corner-badge" style="${isCrackers?'background:#c0770a;':''}">${isLoose?'LOOSE':l.boxNum+'/'+l.totalBoxes}</div>
+    <div class="lbl-banner" style="background:${prodBg};border-bottom:1.5px solid ${prodBorder};">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 38" width="54" height="17" style="flex-shrink:0">
+        <text x="0" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="32" fill="#1a3a8f" letter-spacing="-1">D</text>
+        <text x="22" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="32" fill="#1a3a8f" letter-spacing="-1">e</text>
+        <text x="40" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="32" fill="#1a3a8f" letter-spacing="-1">p</text>
+        <text x="60" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="32" fill="#c0392b" letter-spacing="-1">E</text>
+        <text x="82" y="30" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="32" fill="#c0392b" letter-spacing="-1">D</text>
+        <ellipse cx="50" cy="7" rx="3.5" ry="5" fill="#f9a825" opacity=".95"/>
+        <ellipse cx="50" cy="9" rx="2" ry="3.5" fill="#e65100"/>
+        <ellipse cx="50" cy="6" rx="1.5" ry="3" fill="#fff176"/>
+      </svg>
+      <div class="lbl-banner-text">SBFP · Republic of the Philippines<span class="nfs">NOT FOR SALE</span></div>
+    </div>
+    <div class="lbl-product" style="background:${prodBg};border-bottom:1.5px solid ${prodBorder};">${isCrackers?'🍪':''} ${l.productLabel} — ${l.caseSize} pcs / case</div>
+    <div class="lbl-prog" style="background:${progBg};">${progLine} &nbsp;·&nbsp; ${l.truck} — ${l.route}</div>
+    <div class="lbl-dropoff"><div class="do-eyebrow">Drop-off #${l.dn}</div><div class="do-name">${l.drop}</div></div>
+    <div class="lbl-school"><div class="sch-eyebrow">Recipient School</div><div class="sch-name">${l.school}</div><div class="sch-allot">${allot}</div></div>
+    <div class="lbl-qty" style="${isCrackers?'border-top:1.5px solid #c0770a;':''}">
+      <div class="qty-main" style="background:${progBg};"><div class="qty-num">${l.qty.toLocaleString()}</div><div class="qty-unit">pcs · ${isLoose?'loose':'full case'}</div></div>
+      <div class="qty-side"><div class="qty-boxlabel">${isLoose?'LOOSE':'CASE '+l.boxNum}</div><div class="qty-of">of ${l.totalBoxes}</div>${l.loose>0?`<div class="qty-loose-note">+${l.loose} loose</div>`:''}</div>
+    </div>
+  </div>`;
+}
+
+function buildTabs() {
+  const CASE=getCase();
+  const {trucks,progTag,progLabel}=getCurrentData();
+  const tabBar=document.getElementById('tabBar');
+  tabBar.innerHTML='';
+  const container=document.getElementById('pages');
+  container.innerHTML='';
+  let totalLabels=0, firstTabSet=false;
+  trucks.forEach(truck => {
+    const group=document.createElement('div');
+    group.className=`truck-group ${truck.id}`;
+    const lbl=document.createElement('span');
+    lbl.className='truck-label';
+    lbl.textContent=`🚛 ${truck.label} — ${truck.route}`;
+    group.appendChild(lbl);
+    truck.drops.forEach((d, dIdx) => {
+      const globalIdx=`${truck.id}-${dIdx}`;
+      const tabId=`tab-${globalIdx}`;
+      const labels=buildDropLabels(d,truck,progTag);
+      totalLabels+=labels.length;
+      const isFirst=!firstTabSet;
+      if(isFirst) firstTabSet=true;
+      const btn=document.createElement('button');
+      btn.className='lbl-tab-btn'+(isFirst?' active':'');
+      btn.textContent=`#${d.dn} ${d.drop}`;
+      btn.title=`${truck.label} · ${labels.length} labels`;
+      btn.dataset.tabid=tabId;
+      btn.onclick=()=>{
+        document.querySelectorAll('.lbl-tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.lbl-tab-section').forEach(s=>s.classList.remove('visible'));
+        document.getElementById(tabId).classList.add('visible');
+      };
+      group.appendChild(btn);
+      const section=document.createElement('div');
+      section.className='lbl-tab-section'+(isFirst?' visible':'');
+      section.id=tabId;
+      const totalQ=d.schools.reduce((a,s)=>a+s.q,0);
+      const fullCases=Math.floor(totalQ/CASE), looseRem=totalQ%CASE;
+      const schoolRows=d.schools.map((s,i)=>{
+        const sf=Math.floor(s.q/CASE), sl=s.q%CASE;
+        return `<tr><td>${i+1}</td><td>${s.n}</td><td class="num">${s.q.toLocaleString()}</td><td class="cases">${sf>0?sf+' case'+(sf!==1?'s':''):'—'}</td><td class="loose-cell">${sl>0?sl+' pcs':'—'}</td></tr>`;
+      }).join('');
+      const infoId=`info-${tabId}`;
+      const initStatus=getStatus(document.getElementById('selDelivery').value,truck.id,d.dn);
+      section.innerHTML=`<div class="tab-header">
+        <span>${getProductEmoji()} Drop-off #${d.dn}: ${d.drop}</span>
+        &nbsp;·&nbsp; ${truck.label} — ${truck.route}
+        &nbsp;·&nbsp; ${progLabel}
+        &nbsp;·&nbsp; <span>${d.schools.length} school${d.schools.length!==1?'s':''}</span>
+        &nbsp;·&nbsp; ${totalQ.toLocaleString()} pcs total
+        &nbsp;·&nbsp; <span>${fullCases} full cases${looseRem>0?' + '+looseRem+' pcs loose':''}</span>
+        &nbsp;·&nbsp; ${labels.length} labels · ${Math.ceil(labels.length/8)} page${Math.ceil(labels.length/8)!==1?'s':''}
+        &nbsp;&nbsp;<button onclick="printActiveTab()" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 12px;border-radius:3px;border:2px solid #4caf50;cursor:pointer;background:#4caf50;color:#fff;">🖨 This Tab</button>
+        <button onclick="doPrint('truck')" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 12px;border-radius:3px;border:2px solid #1e88e5;cursor:pointer;background:#1e88e5;color:#fff;">🚛 This Truck</button>
+        <button onclick="doPrint('all')" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 12px;border-radius:3px;border:2px solid #ab47bc;cursor:pointer;background:#ab47bc;color:#fff;">📦 All Trucks</button>
+        <div class="status-toggle-area">
+          <span class="status-toggle-label">Status:</span>
+          <select class="status-select" id="status-sel-${tabId}"
+            onchange="setStatus('${document.getElementById('selDelivery').value}','${truck.id}',${d.dn},this.value);refreshStatusUI()">
+            <option value="pending" ${initStatus==='pending'?'selected':''}>⬜ Pending</option>
+            <option value="partial" ${initStatus==='partial'?'selected':''}>🟡 Partial</option>
+            <option value="delivered" ${initStatus==='delivered'?'selected':''}>✅ Delivered</option>
+          </select>
+        </div>
+        <span class="status-badge-inline status-${initStatus}" id="status-badge-${tabId}">${initStatus==='delivered'?'✅':'initStatus'==='partial'?'🟡':'⬜'} ${initStatus.charAt(0).toUpperCase()+initStatus.slice(1)}</span>
+      </div>
+      <div class="drop-info">
+        <button class="drop-info-toggle" onclick="toggleInfo('${infoId}')">▶ Show School Breakdown — ${d.schools.length} schools · ${totalQ.toLocaleString()} pcs · ${fullCases} cases${looseRem>0?' + '+looseRem+' loose':''}</button>
+        <div class="drop-info-table-wrap" id="${infoId}">
+          <table class="drop-info-table">
+            <thead><tr><th>#</th><th>School</th><th class="num">Qty (pcs)</th><th class="num">Full Cases</th><th class="num">Loose</th></tr></thead>
+            <tbody>${schoolRows}</tbody>
+            <tfoot><tr class="total-row"><td colspan="2">TOTAL — ${d.schools.length} schools</td><td class="num">${totalQ.toLocaleString()} pcs</td><td class="cases">${fullCases} case${fullCases!==1?'s':''}</td><td class="loose-cell">${looseRem>0?looseRem+' pcs':'—'}</td></tr></tfoot>
+          </table>
+        </div>
+      </div>`;
+      for(let i=0;i<labels.length;i+=8) {
+        const page=document.createElement('div');
+        page.className='page';
+        for(let j=i;j<Math.min(i+8,labels.length);j++) page.innerHTML+=makeLbl(labels[j]);
+        section.appendChild(page);
+      }
+      container.appendChild(section);
+    });
+    tabBar.appendChild(group);
+  });
+  document.getElementById('stat').textContent=`${document.querySelectorAll('.lbl-tab-btn').length} drop-off tabs · ${totalLabels.toLocaleString()} total labels · ${getCase()} pcs/case`;
+}
+
+function buildMasterlist() {
+  const CASE=getCase();
+  const {trucks,progLabel}=getCurrentData();
+  const productLabel=getProductLabel(), productEmoji=getProductEmoji();
+  document.getElementById('ctrlTitle').textContent=`${productEmoji} SBFP ${productLabel} Labels 2026`;
+  const tabsEl=document.getElementById('mlTruckTabs');
+  const contentEl=document.getElementById('mlContent');
+  tabsEl.innerHTML=''; contentEl.innerHTML='';
+  let firstSet=false;
+  const truckColors={t1:'#1e88e5',t2:'#f9a825',t3:'#ab47bc'};
+  trucks.forEach((truck,ti)=>{
+    const secId=`ml-${truck.id}`;
+    const btn=document.createElement('button');
+    btn.className='ml-truck-btn'+(!firstSet?` ${truck.id}-active`:'');
+    btn.textContent=`🚛 ${truck.label} — ${truck.route}`;
+    btn.onclick=()=>{
+      document.querySelectorAll('.ml-truck-btn').forEach(b=>{ b.className='ml-truck-btn'; });
+      btn.className=`ml-truck-btn ${truck.id}-active`;
+      document.querySelectorAll('.ml-truck-section').forEach(s=>s.classList.remove('ml-visible'));
+      document.getElementById(secId).classList.add('ml-visible');
+    };
+    tabsEl.appendChild(btn);
+    let truckTotalPcs=0,truckTotalCases=0,truckTotalLoose=0,truckSchoolCount=0;
+    truck.drops.forEach(d=>{
+      d.schools.forEach(s=>{
+        truckTotalPcs+=s.q;
+        truckTotalCases+=Math.floor(s.q/CASE);
+        if(s.q%CASE>0) truckTotalLoose++;
+        truckSchoolCount++;
+      });
+    });
+    const sec=document.createElement('div');
+    sec.className='ml-truck-section'+(!firstSet?' ml-visible':'');
+    sec.id=secId;
+    const colorBar=truckColors[truck.id]||'#4caf50';
+    sec.innerHTML=`<div class="ml-screen-header" style="border-left:4px solid ${colorBar};"><span style="color:${colorBar};">🚛 ${truck.label} — ${truck.route}</span>&nbsp;·&nbsp; ${productEmoji} ${productLabel}&nbsp;·&nbsp; ${progLabel}&nbsp;·&nbsp; <span>${truck.drops.length} drop-offs</span>&nbsp;·&nbsp; <span>${truckSchoolCount} schools</span>&nbsp;·&nbsp; <span>${truckTotalPcs.toLocaleString()} pcs total</span>&nbsp;&nbsp;<button class="ml-print-btn" onclick="printMasterlist('${truck.id}')">🖨 Print This Masterlist</button></div>`;
+    const page=document.createElement('div');
+    page.className='ml-page';
+    page.innerHTML=`<div class="ml-page-header"><div class="ml-page-title">SBFP ${productLabel} — Masterlist</div><div class="ml-page-sub">${truck.label} &nbsp;·&nbsp; ${truck.route} &nbsp;·&nbsp; ${progLabel}</div><div class="ml-page-meta">${truck.drops.length} drop-offs &nbsp;·&nbsp; ${truckSchoolCount} schools &nbsp;·&nbsp; ${truckTotalPcs.toLocaleString()} pcs total &nbsp;·&nbsp; ${Math.floor(truckTotalPcs/CASE)} cases + ${truckTotalPcs%CASE} pcs loose&nbsp;·&nbsp; ${CASE} pcs/case &nbsp;·&nbsp; Printed: ${new Date().toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'})}</div></div>`;
+    let summaryHtml=`<div class="ml-summary-box">`;
+    truck.drops.forEach(d=>{
+      const dq=d.schools.reduce((a,s)=>a+s.q,0), dc=Math.floor(dq/CASE), dl=dq%CASE;
+      summaryHtml+=`<div><span>#${d.dn} ${d.drop}:</span> <b>${dq.toLocaleString()}</b> pcs &nbsp;(<b>${dc}</b> cases${dl>0?` + ${dl} loose`:''})</div>`;
+    });
+    summaryHtml+=`</div>`;
+    page.innerHTML+=summaryHtml;
+    let rowNum=0;
+    truck.drops.forEach(d=>{
+      const dropTotal=d.schools.reduce((a,s)=>a+s.q,0), dropCases=Math.floor(dropTotal/CASE), dropLoose=dropTotal%CASE;
+      let tableHtml=`<div class="ml-drop-block"><div class="ml-drop-header"><span>Drop-off #${d.dn} — ${d.drop}</span><span class="drop-totals">${d.schools.length} schools &nbsp;·&nbsp; ${dropTotal.toLocaleString()} pcs &nbsp;·&nbsp; ${dropCases} case${dropCases!==1?'s':''}${dropLoose>0?' + '+dropLoose+' pcs loose':''}</span></div><table class="ml-table"><thead><tr><th style="width:28px;">#</th><th>School</th><th class="r" style="width:70px;">Qty (pcs)</th><th class="r" style="width:70px;">Cases</th><th class="r" style="width:55px;">Loose</th><th style="width:80px;">Received By</th><th style="width:80px;">Signature</th></tr></thead><tbody>`;
+      d.schools.forEach((s,si)=>{
+        rowNum++;
+        const sc=Math.floor(s.q/CASE), sl=s.q%CASE;
+        tableHtml+=`<tr><td>${rowNum}</td><td>${s.n}</td><td class="r">${s.q.toLocaleString()}</td><td class="cases-col">${sc>0?sc:'—'}</td><td class="loose-col">${sl>0?sl:'—'}</td><td></td><td></td></tr>`;
+      });
+      tableHtml+=`</tbody><tfoot><tr class="sub-total"><td colspan="2">SUBTOTAL — ${d.schools.length} school${d.schools.length!==1?'s':''}</td><td class="r">${dropTotal.toLocaleString()}</td><td class="cases-col">${dropCases}</td><td class="loose-col">${dropLoose>0?dropLoose:'—'}</td><td colspan="2"></td></tr></tfoot></table></div>`;
+      page.innerHTML+=tableHtml;
+    });
+    const grandLoose=truckTotalPcs%CASE, grandCases=Math.floor(truckTotalPcs/CASE);
+    page.innerHTML+=`<table class="ml-table" style="margin-top:4px;"><tr class="grand-total"><td colspan="2" style="padding:5px 6px;font-size:10pt;">GRAND TOTAL — ${productLabel} · ${truck.label} &nbsp;·&nbsp; ${truckSchoolCount} schools &nbsp;·&nbsp; ${truck.drops.length} drop-offs</td><td class="r" style="padding:5px 6px;font-size:10pt;">${truckTotalPcs.toLocaleString()}</td><td class="cases-col" style="padding:5px 6px;font-size:10pt;">${grandCases}</td><td class="loose-col" style="padding:5px 6px;font-size:10pt;">${grandLoose>0?grandLoose:'—'}</td><td colspan="2"></td></tr></table>`;
+    page.innerHTML+=`<div class="ml-signature-row"><div class="ml-sig">Prepared by:<br><br><br>_________________________<br>Name &amp; Signature / Date</div><div class="ml-sig">Checked by:<br><br><br>_________________________<br>Name &amp; Signature / Date</div><div class="ml-sig">Received by (Driver):<br><br><br>_________________________<br>Name &amp; Signature / Date</div><div class="ml-sig">Noted by:<br><br><br>_________________________<br>Name &amp; Signature / Date</div></div>`;
+    sec.appendChild(page);
+    contentEl.appendChild(sec);
+    if(!firstSet) firstSet=true;
+  });
+}
+
+function printMasterlist(truckId) {
+  const target=document.getElementById(`ml-${truckId}`);
+  if(!target) return;
+  const mlPage=target.querySelector('.ml-page');
+  if(!mlPage) return;
+  const printWin=window.open('','_blank','width=900,height=700');
+  if(!printWin) { alert('Pop-up blocked! Please allow pop-ups for this page and try again.'); return; }
+  printWin.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Masterlist Print</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;600;700&display=swap"/><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Barlow Condensed',sans-serif;background:#fff;padding:0;}@page{size:A4 portrait;margin:10mm;}.ml-page{width:100%;font-family:'Barlow Condensed',sans-serif;}.ml-page-header{border-bottom:3px solid #000;padding-bottom:6px;margin-bottom:8px;}.ml-page-title{font-size:16pt;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#000;line-height:1.1;}.ml-page-sub{font-size:9pt;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}.ml-page-meta{font-size:8pt;font-weight:600;color:#555;margin-top:3px;}.ml-summary-box{border:2px solid #000;padding:6px 10px;margin-bottom:10px;background:#f9f9f9;display:flex;gap:20px;flex-wrap:wrap;font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}.ml-drop-block{margin-bottom:10px;page-break-inside:avoid;break-inside:avoid;}.ml-drop-header{background:#222;color:#fff;font-size:10pt;font-weight:900;text-transform:uppercase;letter-spacing:.07em;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;}.ml-drop-header .drop-totals{font-size:8pt;font-weight:700;color:#ccc;}table.ml-table{width:100%;border-collapse:collapse;font-size:8.5pt;}table.ml-table th{background:#f0f0f0;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:7pt;padding:3px 6px;border:1px solid #bbb;text-align:left;}table.ml-table th.r{text-align:right;}table.ml-table td{padding:3px 6px;border:1px solid #ddd;color:#000;vertical-align:middle;}table.ml-table td.r{text-align:right;}table.ml-table td.cases-col{text-align:right;font-weight:700;}table.ml-table td.loose-col{text-align:right;color:#555;font-weight:700;}table.ml-table tr:nth-child(even) td{background:#fafafa;}table.ml-table tr.sub-total td{background:#e8f5e9;font-weight:900;font-size:8pt;border-top:2px solid #555;}table.ml-table tr.grand-total td{background:#000;color:#fff;font-weight:900;font-size:9pt;border-top:3px solid #000;}table.ml-table tr.grand-total td.cases-col{color:#a5d6a7;}table.ml-table tr.grand-total td.loose-col{color:#ffe082;}.ml-signature-row{display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;}.ml-sig{flex:1;min-width:140px;border-top:1.5px solid #000;padding-top:4px;font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;}</style></head><body>${mlPage.outerHTML}</body></html>`);
+  printWin.document.close();
+  printWin.onload=function(){ setTimeout(()=>{ printWin.focus(); printWin.print(); printWin.close(); },600); };
+  setTimeout(()=>{ if(!printWin.closed){ printWin.focus(); printWin.print(); } },1200);
+}
+
+function toggleInfo(id) {
+  const wrap=document.getElementById(id);
+  const btn=wrap.previousElementSibling;
+  const open=wrap.classList.toggle('open');
+  btn.textContent=btn.textContent.replace(/^[▶▼]/,open?'▼':'▶');
+}
+
+function printActiveTab() { doPrint('active'); }
+
+function doPrint(forceScope) {
+  const scope=forceScope||document.getElementById('selPrintScope').value;
+  const allSections=document.querySelectorAll('.lbl-tab-section');
+  const panel=document.getElementById('panelLabels');
+  panel.classList.add('visible');
+  if(scope==='active') {
+    const active=document.querySelector('.lbl-tab-section.visible');
+    if(!active){ panel.classList.remove('visible'); return; }
+    active.classList.add('printing');
+    window.print();
+    active.classList.remove('printing');
+  } else if(scope==='truck') {
+    const active=document.querySelector('.lbl-tab-section.visible');
+    if(!active){ panel.classList.remove('visible'); return; }
+    const parts=active.id.split('-'), truckId=parts[1];
+    allSections.forEach(s=>{ if(s.id.startsWith(`tab-${truckId}-`)) s.classList.add('printing'); });
+    window.print();
+    allSections.forEach(s=>s.classList.remove('printing'));
+  } else {
+    allSections.forEach(s=>s.classList.add('printing'));
+    window.print();
+    allSections.forEach(s=>s.classList.remove('printing'));
+  }
+  if(!document.getElementById('btnLabels').classList.contains('active')) panel.classList.remove('visible');
+}
+
+// Delivery Status (localStorage)
+const STATUS_OPTIONS=['pending','partial','delivered'];
+const STATUS_LABELS={pending:'⬜ Pending',partial:'🟡 Partial',delivered:'✅ Delivered'};
+const STATUS_EMOJIS={pending:'⬜',partial:'🟡',delivered:'✅'};
+
+function statusKey(delivery,truckId,dn) { return `sbfp_status_${delivery}_${truckId}_${dn}`; }
+function getStatus(delivery,truckId,dn) { return localStorage.getItem(statusKey(delivery,truckId,dn))||'pending'; }
+function setStatus(delivery,truckId,dn,status) { localStorage.setItem(statusKey(delivery,truckId,dn),status); }
+
+function cycleStatus(delivery,truckId,dn) {
+  const cur=getStatus(delivery,truckId,dn), idx=STATUS_OPTIONS.indexOf(cur), next=STATUS_OPTIONS[(idx+1)%STATUS_OPTIONS.length];
+  setStatus(delivery,truckId,dn,next);
+  refreshStatusUI();
+}
+
+function resetAllStatus() {
+  if(!confirm('Reset ALL delivery statuses to Pending?')) return;
+  const delivery=document.getElementById('selDelivery').value;
+  const trucks=delivery==='summer'?SUMMER:DOUBLE;
+  trucks.forEach(truck=>{ truck.drops.forEach(d=>{ localStorage.removeItem(statusKey(delivery,truck.id,d.dn)); }); });
+  refreshStatusUI();
+}
+
+function refreshStatusUI() {
+  const delivery=document.getElementById('selDelivery').value;
+  const trucks=delivery==='summer'?SUMMER:DOUBLE;
+  let total=0, doneCount=0;
+  trucks.forEach(truck=>{ truck.drops.forEach(d=>{ total++; if(getStatus(delivery,truck.id,d.dn)==='delivered') doneCount++; }); });
+  const pct=total>0?Math.round(doneCount/total*100):0;
+  document.getElementById('statusFill').style.width=pct+'%';
+  document.getElementById('statusDoneCount').textContent=doneCount;
+  document.getElementById('statusTotalCount').textContent=total;
+  trucks.forEach(truck=>{
+    truck.drops.forEach((d,dIdx)=>{
+      const st=getStatus(delivery,truck.id,d.dn);
+      const tabBtn=document.querySelector(`[data-tabid="tab-${truck.id}-${dIdx}"]`);
+      if(tabBtn){
+        tabBtn.classList.remove('drop-done');
+        const oldDot=tabBtn.querySelector('.status-dot');
+        if(oldDot) oldDot.remove();
+        const dot=document.createElement('span');
+        dot.className='status-dot'+(st==='delivered'?' done':st==='partial'?' partial':'');
+        tabBtn.appendChild(dot);
+        if(st==='delivered') tabBtn.classList.add('drop-done');
+      }
+      const sel=document.getElementById(`status-sel-tab-${truck.id}-${dIdx}`);
+      if(sel) sel.value=st;
+      const badge=document.getElementById(`status-badge-tab-${truck.id}-${dIdx}`);
+      if(badge){ badge.textContent=STATUS_EMOJIS[st]+' '+st.charAt(0).toUpperCase()+st.slice(1); badge.className='status-badge-inline status-'+st; }
+    });
+  });
+  buildDashboard();
+}
+
+function buildDashboard() {
+  const delivery=document.getElementById('selDelivery').value;
+  const truckFilter=document.getElementById('selTruck').value;
+  const trucks=delivery==='summer'?SUMMER:DOUBLE;
+  const filtered=truckFilter==='all'?trucks:trucks.filter(t=>t.id===truckFilter);
+  const ddEl=document.getElementById('ddContent');
+  ddEl.innerHTML='';
+  filtered.forEach(truck=>{
+    const block=document.createElement('div');
+    block.className='dd-truck-block';
+    block.innerHTML=`<div class="dd-truck-label ${truck.id}">🚛 ${truck.label} — ${truck.route}</div>`;
+    const pills=document.createElement('div');
+    pills.className='dd-drops';
+    truck.drops.forEach(d=>{
+      const st=getStatus(delivery,truck.id,d.dn);
+      const pill=document.createElement('div');
+      pill.className=`dd-drop-pill status-${st}`;
+      pill.title='Click to cycle: Pending → Partial → Delivered';
+      pill.textContent=`${STATUS_EMOJIS[st]} #${d.dn} ${d.drop}`;
+      pill.onclick=()=>{ cycleStatus(delivery,truck.id,d.dn); };
+      pills.appendChild(pill);
+    });
+    block.appendChild(pills);
+    ddEl.appendChild(block);
+  });
+}
+
+function buildAll() {
+  buildTabs();
+  buildMasterlist();
+  buildDashboard();
+  refreshStatusUI();
+}
+
+/* ════ INIT ════ */
+renderAll();
+risSel.value=schools[0].id; filterRis(schools[0].id);
+iarSel.value=schools[0].id; filterIar(schools[0].id);
+drSel.value=schools[0].id;  filterDr(schools[0].id);
+globalSel.value=schools[0].id;
+buildAll();
+</script>
+</body>
+</html>
