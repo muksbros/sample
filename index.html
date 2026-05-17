@@ -1,10 +1,10 @@
-html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>DepEd Zamboanga City — SBFP Unified System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
@@ -13,11 +13,17 @@ html
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --blue: #000000;
-  --gold: #000000;
-  --green: #000000;
-  --border: #000000;
-  --text: #000000;
+  --blue: #1a56a0;
+  --blue-dark: #0f3a72;
+  --blue-light: #e8f0fb;
+  --gold: #b8860b;
+  --gold-light: #fff8e1;
+  --green: #2e7d32;
+  --green-dark: #1b5e20;
+  --border: #1a1a1a;
+  --text: #111111;
+  --surface: #f5f4f0;
+  --nav-height: 52px;
 }
 
 body {
@@ -29,28 +35,71 @@ body {
 
 /* ═══════════ TOP SYSTEM NAV ═══════════ */
 .system-nav {
-  background: #0d1f0d;
-  border-bottom: 3px solid #2d6b2d;
-  padding: 0 16px;
+  background: linear-gradient(135deg, #0a1f0a 0%, #0d2b1a 50%, #0a1a2e 100%);
+  border-bottom: 2px solid #2d6b2d;
+  padding: 0 12px;
   display: flex;
   align-items: stretch;
   gap: 0;
+  min-height: var(--nav-height);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,.4);
 }
 .system-nav-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 13px;
   font-weight: 900;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: #7bc97e;
-  padding: 10px 18px 10px 4px;
-  border-right: 1px solid #2d6b2d;
+  padding: 0 16px 0 4px;
+  border-right: 1px solid rgba(45,107,45,0.5);
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
-.system-nav-title .dot { color: #4caf50; }
+.system-nav-title .nav-org {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.system-nav-title .nav-org .nav-line1 {
+  font-size: 9px;
+  color: #4caf50;
+  letter-spacing: .14em;
+  font-weight: 700;
+  opacity: .85;
+}
+.system-nav-title .nav-org .nav-line2 {
+  font-size: 13px;
+  color: #a8e6ab;
+  font-weight: 900;
+}
+.system-nav-title .dot { color: #4caf50; margin: 0 2px; }
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  border: 1px solid #4caf50;
+}
+.nav-tabs-area {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs-area::-webkit-scrollbar { display: none; }
 
 .sys-tab {
   font-family: 'Barlow Condensed', sans-serif;
@@ -58,17 +107,25 @@ body {
   font-weight: 800;
   letter-spacing: .07em;
   text-transform: uppercase;
-  padding: 0 22px;
+  padding: 0 20px;
   border: none;
   background: none;
-  color: #7bc97e;
+  color: rgba(123,201,126,.7);
   cursor: pointer;
   border-bottom: 3px solid transparent;
-  margin-bottom: -3px;
-  transition: all .15s;
+  margin-bottom: -2px;
+  transition: all .2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.sys-tab:hover { color: #fff; background: #163316; }
-.sys-tab.active { color: #fff; border-bottom-color: #4caf50; background: #1a3a1a; }
+.sys-tab:hover { color: #fff; background: rgba(255,255,255,.05); }
+.sys-tab.active {
+  color: #fff;
+  border-bottom-color: #4caf50;
+  background: rgba(76,175,80,.1);
+}
 
 /* ═══════════ SYSTEM PANELS ═══════════ */
 .sys-panel { display: none; }
@@ -78,9 +135,9 @@ body {
    SECTION A — DOCS (RIS / IAR / DR / PO)
 ════════════════════════════════════════════════════════ */
 #sysA {
-  background: #e8e4dc;
-  padding: 20px;
-  min-height: calc(100vh - 45px);
+  background: var(--surface);
+  padding: 16px;
+  min-height: calc(100vh - var(--nav-height));
 }
 
 /* ═══════════ TAB BAR (Docs) ═══════════ */
@@ -89,34 +146,41 @@ body {
   margin: 0 auto 0;
   display: flex;
   gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+.doc-tab-bar::-webkit-scrollbar { display: none; }
 
 .doc-tab-btn {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .06em;
+  font-weight: 800;
+  letter-spacing: .07em;
   text-transform: uppercase;
-  padding: 11px 28px;
-  border: 2px solid #000;
+  padding: 10px 22px;
+  border: 2px solid #c0b8a8;
   border-bottom: none;
-  background: #ccc8c0;
-  color: #666;
+  background: #ddd9d0;
+  color: #777;
   cursor: pointer;
   border-radius: 6px 6px 0 0;
-  transition: background .15s, color .15s;
+  transition: background .15s, color .15s, border-color .15s;
   user-select: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.doc-tab-btn:hover { background: #dbd7ce; color: #000; }
+.doc-tab-btn:hover { background: #e8e4dc; color: #000; border-color: #999; }
 .doc-tab-btn.active {
   background: white;
   color: #000;
+  border-color: #555;
   position: relative;
   z-index: 2;
   margin-bottom: -2px;
   border-bottom: 2px solid white;
 }
-.doc-tab-btn.settings-btn { background: #e8e8e8; color: #000; border-color: #000; }
+.doc-tab-btn.settings-btn { background: #e0ddd4; color: #333; border-color: #aaa; }
 .doc-tab-btn.settings-btn.active { background: white; }
 
 /* ═══════════ DOC TAB PANELS ═══════════ */
@@ -127,10 +191,11 @@ body {
   max-width: 960px;
   margin: 0 auto 18px;
   background: white;
-  border: 2px solid #000;
+  border: 2px solid #555;
   border-top: none;
-  border-radius: 0 6px 6px 6px;
-  padding: 22px 26px;
+  border-radius: 0 8px 8px 8px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
 }
 
 /* ═══════════ SETTINGS ═══════════ */
@@ -141,23 +206,28 @@ body {
 }
 
 .s-section {
-  border: 1.5px solid #aaa;
-  border-radius: 6px;
-  padding: 16px 18px;
-  background: #f7f7f7;
+  border: 1.5px solid #d0ccc4;
+  border-radius: 8px;
+  padding: 18px 20px;
+  background: #faf9f7;
+  transition: border-color .2s;
 }
+.s-section:hover { border-color: #aaa; }
 .s-section.full { grid-column: 1 / -1; }
 
 .s-section h3 {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .1em;
+  font-weight: 900;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: #000;
+  color: var(--blue-dark);
   margin-bottom: 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #aaa;
+  padding-bottom: 9px;
+  border-bottom: 2px solid #e0ddd4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .f-row {
@@ -210,21 +280,23 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 18px;
-  padding: 14px 18px;
-  background: #f0f0f0;
-  border-radius: 6px;
-  border: 1.5px solid #aaa;
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--blue-light), #f0f7ff);
+  border-radius: 8px;
+  border: 1.5px solid #b0c8e8;
   flex-wrap: wrap;
 }
 .apply-banner p {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #555;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #333;
   flex: 1;
   min-width: 200px;
 }
-.apply-banner p strong { color: #000; }
+.apply-banner p strong { color: var(--blue-dark); }
 
 /* ═══════════ DOC CONTROLS ═══════════ */
 .doc-controls {
@@ -235,10 +307,11 @@ body {
   gap: 10px;
   flex-wrap: wrap;
   background: white;
-  border: 2px solid #000;
+  border: 2px solid #555;
   border-top: none;
-  border-radius: 0 0 6px 6px;
-  padding: 13px 18px;
+  border-radius: 0 0 8px 8px;
+  padding: 12px 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
 }
 .doc-controls label {
   font-family: 'IBM Plex Mono', monospace;
@@ -266,22 +339,26 @@ body {
 
 /* ═══════════ BUTTONS ═══════════ */
 .btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .06em;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .07em;
   text-transform: uppercase;
-  padding: 8px 15px;
+  padding: 9px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: opacity .15s;
+  transition: opacity .15s, transform .1s, box-shadow .15s;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
-.btn:hover { opacity: .82; }
+.btn:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.18); }
+.btn:active { transform: translateY(0); }
 .btn-blue  { background: var(--blue); color: white; }
 .btn-gold  { background: var(--gold); color: white; }
-.btn-gray  { background: #666; color: white; }
+.btn-gray  { background: #555; color: white; }
 .btn-green { background: var(--green); color: white; }
 
 /* ═══════════ A4 DOCUMENT ═══════════ */
@@ -635,34 +712,34 @@ body {
 /* ════════════════════════════════════════════════════════
    SECTION B — SBFP LABELS (scoped inside #sysB)
 ════════════════════════════════════════════════════════ */
-#sysB {
-  background: #1a3a1a;
-  padding: 12px;
-  min-height: calc(100vh - 45px);
-}
 
 #sysB .controls {
-  background:#0d2b0d;color:#fff;
-  padding:10px 16px;margin-bottom:12px;
-  border-radius:5px;
+  background: linear-gradient(135deg, #0a1f0a, #0d2b1a);
+  color:#fff;
+  padding:12px 16px;margin-bottom:12px;
+  border-radius:8px;
   display:flex;gap:10px;align-items:center;flex-wrap:wrap;
   font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
   letter-spacing:.05em;text-transform:uppercase;
   border:1px solid #2d6b2d;
+  box-shadow: 0 4px 16px rgba(0,0,0,.35);
 }
 #sysB .controls select {
   font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
   text-transform:uppercase;letter-spacing:.04em;
-  padding:6px 12px;border-radius:4px;border:1px solid #2d6b2d;cursor:pointer;
-  background:#0d2b0d;color:#fff;
+  padding:7px 12px;border-radius:5px;border:1px solid #3d8b3d;cursor:pointer;
+  background:#0f2b0f;color:#fff;
+  transition: border-color .2s;
 }
+#sysB .controls select:hover { border-color: #4caf50; }
 #sysB .controls button {
-  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;
   text-transform:uppercase;letter-spacing:.05em;
-  padding:6px 16px;border-radius:4px;border:2px solid #4caf50;
+  padding:7px 16px;border-radius:5px;border:2px solid #4caf50;
   cursor:pointer;background:#4caf50;color:#fff;
+  transition: background .15s, transform .1s;
 }
-#sysB .controls button:hover{background:#45a049;}
+#sysB .controls button:hover{background:#45a049; transform: translateY(-1px);}
 #sysB .ctrl-stat{color:#7bc97e;font-size:11px;}
 
 /* SBFP DELIVERY STATUS BAR */
@@ -833,21 +910,112 @@ table.ml-table tr.grand-total td.loose-col{color:#ffe082;}
 .ml-signature-row { display:flex;gap:20px;margin-top:16px;flex-wrap:wrap; }
 .ml-sig { flex:1;min-width:140px;border-top:1.5px solid #000;padding-top:4px;font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333; }
 
-@media (max-width: 700px) {
-  #sysA { padding: 6px; }
-  .doc-tab-bar { flex-wrap: wrap; gap: 2px; }
-  .doc-tab-btn { font-size: 10px; padding: 8px 12px; }
-  .panel-shell { padding: 12px 10px; }
-  .settings-grid { grid-template-columns: 1fr; }
-  .s-section.full { grid-column: 1; }
-  .doc-controls { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; }
-  .doc-wrap { overflow-x: auto; }
-  .a4 { min-width: 320px; padding: 6mm 5mm 5mm; }
+/* ═══════════ sysB responsive ═══════════ */
+#sysB {
+  background: #1a3a1a;
+  padding: 12px;
+  min-height: calc(100vh - var(--nav-height));
+}
+
+/* ═══ TABLET BREAKPOINT (600–900px) ═══ */
+@media (max-width: 900px) and (min-width: 601px) {
+  :root { --nav-height: 56px; }
+  #sysA { padding: 12px; }
+  .doc-tab-btn { font-size: 11px; padding: 9px 16px; }
+  .panel-shell { padding: 18px 16px; }
+  .settings-grid { grid-template-columns: 1fr 1fr; }
+  .doc-controls { gap: 8px; padding: 10px 14px; }
+  .a4 { max-width: 100%; }
   .sig-block { grid-template-columns: 1fr 1fr; }
-  .a4.dr-page { flex-direction: column; width: auto; }
+  .system-nav-title .nav-org .nav-line1 { display: none; }
+  #sysB { padding: 10px; }
+  .dd-drop-pill { font-size: 10px; padding: 4px 8px; }
+  .lbl-tab-bar { padding: 6px; gap: 4px; }
+  .truck-group { flex-wrap: wrap; }
+}
+
+/* ═══ MOBILE BREAKPOINT (≤600px) ═══ */
+@media (max-width: 600px) {
+  :root { --nav-height: 48px; }
+
+  /* ── NAV ── */
+  .system-nav { padding: 0 8px; }
+  .system-nav-title { padding: 0 10px 0 2px; gap: 6px; }
+  .system-nav-title .nav-org .nav-line1 { display: none; }
+  .system-nav-title .nav-org .nav-line2 { font-size: 10px; }
+  .nav-icon { width: 26px; height: 26px; font-size: 13px; }
+  .sys-tab { padding: 0 12px; font-size: 10px; gap: 3px; }
+
+  /* ── SECTION A ── */
+  #sysA { padding: 8px; }
+  .doc-tab-bar { gap: 1px; }
+  .doc-tab-btn { font-size: 10px; padding: 8px 11px; letter-spacing: .03em; }
+  .panel-shell { padding: 12px 10px; border-radius: 0 6px 6px 6px; }
+  .settings-grid { grid-template-columns: 1fr; gap: 10px; }
+  .s-section.full { grid-column: 1; }
+  .s-section { padding: 14px 12px; }
+  .f-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .f-row label { min-width: unset; font-size: 9px; }
+  .s-inp { font-size: 14px; /* iOS zoom prevention */ min-width: unset; width: 100%; }
+  .doc-controls { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 12px; }
+  .doc-controls label { font-size: 10px; }
+  .d-sel { min-width: unset; width: 100%; font-size: 14px; /* iOS zoom prevention */ }
+  .d-inp { font-size: 14px; }
+  .doc-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .a4 { min-width: 320px; padding: 5mm 4mm 4mm; font-size: 9px; }
+  .sig-block { grid-template-columns: 1fr 1fr; }
+  .a4.dr-page { flex-direction: column; width: auto; min-height: unset; }
   .dr-half:first-child { border-right: none; border-bottom: 1px dashed #aaa; padding-right: 0; margin-right: 0; padding-bottom: 8px; margin-bottom: 8px; }
   .iar-split { grid-template-columns: 1fr; }
   .iar-half:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  .apply-banner { flex-direction: column; align-items: stretch; gap: 8px; }
+  .apply-banner .btn { text-align: center; justify-content: center; }
+  .btn { font-size: 11px; padding: 10px 14px; }
+
+  /* Prevent font-size < 16px on inputs (iOS zoom) */
+  input[type="text"], input[type="number"], select, textarea { font-size: 16px !important; }
+  .s-inp, .d-sel, .d-inp { font-size: 16px !important; }
+
+  /* doc controls stack nicely */
+  .doc-controls > .spacer { display: none; }
+  .doc-controls > .show-lbl { font-size: 11px; }
+
+  /* ── SECTION B (Labels) ── */
+  #sysB { padding: 8px; }
+  #sysB .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  #sysB .controls select { width: 100%; font-size: 14px; }
+  #sysB .controls button { width: 100%; justify-content: center; padding: 10px; }
+  .status-bar { flex-wrap: wrap; gap: 8px; padding: 8px 10px; }
+  .status-progress { min-width: 100%; }
+  .delivery-dashboard { padding: 8px 10px; }
+  .dd-drops { gap: 4px; }
+  .dd-drop-pill { font-size: 10px; padding: 4px 8px; }
+  .main-tab-bar { gap: 4px; }
+  .main-tab-btn { font-size: 11px; padding: 7px 14px; }
+  .lbl-tab-bar { padding: 6px; gap: 4px; }
+  .truck-group { flex-wrap: wrap; gap: 3px; }
+  .lbl-tab-btn { font-size: 9px; padding: 4px 8px; }
+  .ml-truck-tabs { gap: 4px; }
+  .ml-truck-btn { font-size: 11px; padding: 6px 12px; }
+  .masterlist-panel { padding: 8px; }
+  /* Labels page scrollable on mobile */
+  .page { min-width: 210mm; }
+  #pages { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ── Print control bar on mobile ── */
+  #sysB .controls > span:first-child { font-size: 14px; font-weight: 900; border-bottom: 1px solid #2d6b2d; padding-bottom: 8px; margin-bottom: 2px; }
+}
+
+/* ═══ VERY SMALL MOBILE (≤380px) ═══ */
+@media (max-width: 380px) {
+  .sys-tab { padding: 0 8px; font-size: 9px; }
+  .doc-tab-btn { padding: 7px 8px; font-size: 9px; }
+  .system-nav-title .nav-org .nav-line2 { font-size: 9px; }
 }
 </style>
 </head>
@@ -856,10 +1024,16 @@ table.ml-table tr.grand-total td.loose-col{color:#ffe082;}
 <!-- ═══════════ SYSTEM NAVIGATION ═══════════ -->
 <div class="system-nav">
   <div class="system-nav-title">
-    <span>📚</span> DepEd Zamboanga City <span class="dot">·</span> SBFP Unified
+    <div class="nav-icon">📚</div>
+    <div class="nav-org">
+      <span class="nav-line1">DepEd Division of Zamboanga City</span>
+      <span class="nav-line2">SBFP Unified System</span>
+    </div>
   </div>
-  <button class="sys-tab active" onclick="switchSys('sysA')">📄 Documents (RIS / IAR / DR / PO)</button>
-  <button class="sys-tab" onclick="switchSys('sysB')">🏷 SBFP Labels &amp; Masterlist</button>
+  <div class="nav-tabs-area">
+    <button class="sys-tab active" onclick="switchSys('sysA')">📄 Documents</button>
+    <button class="sys-tab" onclick="switchSys('sysB')">🏷 Labels &amp; Masterlist</button>
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
